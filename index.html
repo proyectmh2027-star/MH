@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="es" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#FF5A00">
+<meta name="description" content="Martha Herrera — Conóceme, Infórmate y Peticiones. Un espacio para la comunidad.">
+<title>Martha Herrera · Comunidad</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800&family=Figtree:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+/* ==============================================================
+   MARTHA HERRERA · PORTAL COMUNITARIO (INICIO)
+   Mismo lenguaje visual del perfil: naranja + blanco,
+   nav liquid-glass + toggle, hero con auras, ticker.
+   ============================================================== */
+:root{
+  --bg:#FFFFFF; --bg-soft:rgba(255,90,0,.055);
+  --ink:#221407; --ink-soft:rgba(34,20,7,.64);
+  --line:rgba(34,20,7,.12);
+  --accent:#FF5A00; --accent-deep:#D94800;
+  --glass:rgba(255,255,255,.72); --glass-border:rgba(34,20,7,.1);
+  --card:#FFFFFF; --shadow:0 18px 50px rgba(217,72,0,.10);
+  --spec-a:rgba(255,90,0,.35); --spec-b:rgba(255,166,102,.4); --spec-c:rgba(255,214,170,.5);
+  --display:'Plus Jakarta Sans',sans-serif; --body:'Figtree',sans-serif;
+}
+html[data-theme="dark"]{
+  --bg:#170D04; --bg-soft:rgba(255,166,102,.05);
+  --ink:#FBF3EC; --ink-soft:rgba(251,243,236,.66);
+  --line:rgba(251,243,236,.14);
+  --glass:rgba(30,18,8,.68); --glass-border:rgba(251,243,236,.12);
+  --card:#221306; --shadow:0 18px 50px rgba(0,0,0,.45);
+  --spec-a:rgba(255,90,0,.28); --spec-b:rgba(255,140,60,.2); --spec-c:rgba(120,60,10,.35);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth;background:var(--bg)}
+body{font-family:var(--body);color:var(--ink);-webkit-font-smoothing:antialiased;overflow-x:hidden;transition:color .4s ease}
+#mh-dust{position:fixed;inset:0;z-index:-1;pointer-events:none}
+a{color:inherit}
+::selection{background:var(--accent);color:#fff}
+.container{width:min(1100px,100% - 2.4rem);margin-inline:auto}
+
+/* ---------- Nav ---------- */
+.nav-shell{position:fixed;inset:0 0 auto 0;z-index:1000;display:flex;justify-content:center;gap:.6rem;padding:.8rem 1rem;pointer-events:none}
+.top-nav{pointer-events:auto;max-width:100%;overflow-x:auto;scrollbar-width:none;background:rgba(255,255,255,.55);backdrop-filter:blur(16px);border:1px solid var(--glass-border);border-radius:999px;box-shadow:var(--shadow)}
+.top-nav::-webkit-scrollbar{display:none}
+.nav-inner{display:flex;gap:.2rem;padding:.35rem .5rem;white-space:nowrap}
+.nav-inner a{text-decoration:none;font-size:.82rem;font-weight:600;color:var(--ink-soft);padding:.5rem .8rem;border-radius:999px;transition:all .2s}
+.nav-inner a:hover,.nav-inner a.on{color:var(--accent);background:var(--bg-soft)}
+.theme-toggle{pointer-events:auto;flex:0 0 auto;display:flex;align-items:center;gap:.5rem;background:var(--glass);backdrop-filter:blur(16px);border:1px solid var(--glass-border);border-radius:999px;padding:.5rem .9rem;cursor:pointer;font-family:var(--body);font-weight:600;font-size:.8rem;color:var(--ink);box-shadow:var(--shadow)}
+.toggle-dot{width:12px;height:12px;border-radius:50%;background:var(--accent);transition:transform .3s}
+html[data-theme="dark"] .toggle-dot{transform:scale(.7);box-shadow:0 0 10px var(--accent)}
+html[data-theme="dark"] .top-nav{background:rgba(23,13,4,.55)}
+
+/* ---------- Hero ---------- */
+.hero{min-height:88svh;display:flex;flex-direction:column;justify-content:center;position:relative;overflow:hidden;padding:7rem 0 0}
+.aura{position:absolute;inset:0;pointer-events:none;filter:blur(60px)}
+.aura span{position:absolute;border-radius:50%;animation:flota 22s ease-in-out infinite alternate}
+@keyframes flota{from{transform:translate(0,0) scale(1)}to{transform:translate(6%,-8%) scale(1.15)}}
+.eyebrow{font-weight:600;font-size:.82rem;letter-spacing:.24em;text-transform:uppercase;color:var(--accent)}
+.hero h1{font-family:var(--display);font-weight:800;font-size:clamp(2.8rem,9vw,6rem);line-height:1;letter-spacing:-.02em;margin:.6rem 0 1.2rem}
+.hero h1 em{font-style:normal;color:var(--accent)}
+.hero-subtitle{max-width:56ch;font-size:clamp(1.05rem,2.4vw,1.25rem);line-height:1.55;color:var(--ink-soft)}
+.fx-fade{opacity:0;animation:fxf .9s ease forwards}
+.fx-rise{opacity:0;animation:fxr .9s ease forwards;animation-delay:var(--fx-delay,0ms)}
+@keyframes fxf{to{opacity:1}}
+@keyframes fxr{from{opacity:0;transform:translateY(22px)}to{opacity:1;transform:none}}
+
+/* ---------- Tarjetas de apartados ---------- */
+.portal-grid{display:grid;gap:1rem;margin:2.6rem 0 3rem}
+@media(min-width:860px){.portal-grid{grid-template-columns:repeat(3,1fr)}}
+.portal{
+  display:flex;flex-direction:column;gap:.7rem;padding:1.8rem 1.6rem;border-radius:20px;
+  background:var(--card);border:1px solid var(--glass-border);box-shadow:var(--shadow);
+  text-decoration:none;position:relative;overflow:hidden;transition:transform .25s ease;
+}
+.portal:hover{transform:translateY(-5px)}
+.portal::after{content:"";position:absolute;right:-30%;top:-30%;width:70%;aspect-ratio:1;border-radius:50%;background:radial-gradient(circle,var(--bg-soft),transparent 70%)}
+.portal .tag{font-weight:600;font-size:.78rem;letter-spacing:.18em;text-transform:uppercase;color:var(--accent)}
+.portal h2{font-family:var(--display);font-weight:800;font-size:1.5rem;letter-spacing:-.01em}
+.portal p{color:var(--ink-soft);line-height:1.55;font-size:.95rem;flex:1}
+.portal .go{font-weight:700;color:var(--accent);font-size:.92rem}
+.portal.destacado{background:linear-gradient(150deg,var(--accent),var(--accent-deep));color:#fff}
+.portal.destacado .tag{color:rgba(255,255,255,.85)}
+.portal.destacado p{color:rgba(255,255,255,.9)}
+.portal.destacado .go{color:#fff}
+
+/* ---------- Ticker ---------- */
+.hero-ticker{margin-top:auto;border-block:1px solid var(--line);padding:.8rem 0;overflow:hidden}
+.hero-ticker .track{display:flex;width:max-content;animation:rueda 28s linear infinite}
+.hero-ticker span{font-family:var(--display);font-weight:600;font-size:.95rem;letter-spacing:.08em;text-transform:uppercase;white-space:nowrap;padding-inline:1.4rem;color:var(--ink-soft)}
+.hero-ticker span::after{content:"·";color:var(--accent);margin-left:2.6rem}
+@keyframes rueda{to{transform:translateX(-50%)}}
+
+footer{padding:1.6rem 0;font-size:.85rem;color:var(--ink-soft);text-align:center}
+@media(prefers-reduced-motion:reduce){*{animation-duration:.01ms!important;transition-duration:.01ms!important}html{scroll-behavior:auto}}
+@media(max-width:640px){
+  .container{width:min(1100px,100% - 1.8rem)}
+  .nav-shell{padding:.6rem .6rem;gap:.4rem}
+  .nav-inner a{font-size:.78rem;padding:.45rem .65rem}
+  .theme-toggle{padding:.45rem .7rem;font-size:.75rem}
+  .hero{padding-top:5.6rem}
+}
+</style>
+</head>
+<body>
+<canvas id="mh-dust" aria-hidden="true"></canvas>
+
+<div class="nav-shell">
+  <nav class="top-nav">
+    <div class="nav-inner">
+      <a href="index.html" class="on">Inicio</a>
+      <a href="conoceme.html">Conóceme</a>
+      <a href="informate.html">Infórmate</a>
+      <a href="peticiones.html">Peticiones</a>
+    </div>
+  </nav>
+  <button id="themeToggle" class="theme-toggle" type="button" aria-pressed="false">
+    <span class="toggle-dot" aria-hidden="true"></span>
+    <span id="themeToggleLabel">Claro</span>
+  </button>
+</div>
+
+<section class="hero">
+  <div class="aura" aria-hidden="true">
+    <span style="width:520px;height:520px;left:-8%;top:6%;background:var(--spec-a)"></span>
+    <span style="width:380px;height:380px;right:-6%;top:38%;background:var(--spec-b);animation-delay:-9s"></span>
+    <span style="width:300px;height:300px;left:32%;bottom:-12%;background:var(--spec-c);animation-delay:-15s"></span>
+  </div>
+  <div class="container">
+    <p class="eyebrow fx-fade">Martha Herrera · Comunidad</p>
+    <h1 class="fx-rise" style="--fx-delay:100ms">Un espacio hecho<br><em>contigo y para ti</em></h1>
+    <p class="hero-subtitle fx-rise" style="--fx-delay:250ms">
+      Aquí puedes conocer mi historia, encontrar información útil para tu día a día
+      y levantar la mano cuando algo en tu colonia necesita atención.
+    </p>
+
+    <div class="portal-grid">
+      <a class="portal fx-rise" style="--fx-delay:350ms" href="conoceme.html">
+        <span class="tag">Conóceme</span>
+        <h2>Mi historia y trayectoria</h2>
+        <p>Más de 35 años de trabajo social y comunitario: semblanza, huella, causas y cómo contactarme.</p>
+        <span class="go">Conocer más →</span>
+      </a>
+      <a class="portal fx-rise" style="--fx-delay:450ms" href="informate.html">
+        <span class="tag">Infórmate</span>
+        <h2>Información útil</h2>
+        <p>Contactos de emergencia, servicios públicos, becas y convocatorias vigentes, todo en un solo lugar.</p>
+        <span class="go">Ver información →</span>
+      </a>
+      <a class="portal destacado fx-rise" style="--fx-delay:550ms" href="peticiones.html">
+        <span class="tag">Peticiones</span>
+        <h2>¿Qué te duele?</h2>
+        <p>Marca en el mapa el punto exacto y cuéntanos qué pasa: servicios, limpieza, seguridad. Tu reporte queda registrado.</p>
+        <span class="go">Levantar la mano →</span>
+      </a>
+    </div>
+  </div>
+  <div class="hero-ticker" aria-hidden="true">
+    <div class="track" id="tickerTrack">
+      <span>Igualdad</span><span>Comunidad</span><span>Servir</span><span>Inclusión</span><span>Alianzas</span><span>Territorio</span>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="container">© <span id="anio"></span> Martha Herrera · Hecho con la comunidad</div>
+</footer>
+
+<script>
+/* ===== Fondo de partículas (misma red del perfil) ===== */
+(function(){
+  var cv=document.getElementById('mh-dust'); if(!cv)return;
+  var ctx=cv.getContext('2d'),DPR=Math.min(devicePixelRatio||1,2),W,H,N,LINK,parts=[],GRAB=170,ptr={x:0,y:0,on:false,last:0};
+  function rnd(a,b){return a+Math.random()*(b-a);}
+  function isLight(){return document.documentElement.getAttribute('data-theme')!=='dark';}
+  function nodo(){return{x:rnd(0,W),y:rnd(0,H),vx:rnd(-.22,.22),vy:rnd(-.22,.22),r:rnd(1.2,2.6)};}
+  function resize(){W=innerWidth;H=innerHeight;cv.width=Math.max(1,W*DPR);cv.height=Math.max(1,H*DPR);ctx.setTransform(DPR,0,0,DPR,0,0);
+    var touch=matchMedia('(pointer:coarse)').matches;N=Math.min(220,Math.round(W*H/(touch?11000:5200)));LINK=Math.max(95,Math.min(150,Math.sqrt(W*H)/9));
+    parts=[];for(var i=0;i<N;i++)parts.push(nodo());}
+  addEventListener('pointermove',function(e){ptr.x=e.clientX;ptr.y=e.clientY;ptr.on=true;ptr.last=performance.now();},{passive:true});
+  addEventListener('pointerleave',function(){ptr.on=false;});
+  function frame(){
+    if(document.hidden){ctx.clearRect(0,0,W,H);return requestAnimationFrame(frame);}
+    if(ptr.on&&performance.now()-ptr.last>2600)ptr.on=false;
+    var lt=isLight();ctx.clearRect(0,0,W,H);
+    for(var i=0;i<N;i++){var p=parts[i];p.vx+=(Math.random()-.5)*.02;p.vy+=(Math.random()-.5)*.02;
+      if(ptr.on){var dx=ptr.x-p.x,dy=ptr.y-p.y,d2=dx*dx+dy*dy;if(d2<GRAB*GRAB){var d=Math.sqrt(d2)||.01,f=(1-d/GRAB)*0.09;p.vx+=dx/d*f*d*0.06;p.vy+=dy/d*f*d*0.06;}}
+      p.vx*=0.94;p.vy*=0.94;p.x+=p.vx;p.y+=p.vy;
+      if(p.x<-30)p.x=W+30;else if(p.x>W+30)p.x=-30;if(p.y<-30)p.y=H+30;else if(p.y>H+30)p.y=-30;}
+    ctx.lineWidth=1;
+    for(var i=0;i<N;i++){var a=parts[i];for(var j=i+1;j<N;j++){var b=parts[j];
+      var dx=a.x-b.x;if(dx>LINK||dx<-LINK)continue;var dy=a.y-b.y;if(dy>LINK||dy<-LINK)continue;
+      var d2=dx*dx+dy*dy;if(d2>LINK*LINK)continue;var t=1-Math.sqrt(d2)/LINK,al=t*t*(lt?0.26:0.34);
+      if(ptr.on){var mx=(a.x+b.x)/2-ptr.x,my=(a.y+b.y)/2-ptr.y;if(mx*mx+my*my<GRAB*GRAB)al=Math.min(lt?0.5:0.7,al*2.1);}
+      ctx.strokeStyle=lt?'rgba(217,72,0,'+al.toFixed(3)+')':'rgba(255,150,80,'+al.toFixed(3)+')';
+      ctx.beginPath();ctx.moveTo(a.x,a.y);ctx.lineTo(b.x,b.y);ctx.stroke();}}
+    for(var i=0;i<N;i++){var p=parts[i];ctx.fillStyle=lt?'rgba(255,90,0,.55)':'rgba(255,170,110,.75)';ctx.beginPath();ctx.arc(p.x,p.y,p.r,0,6.2832);ctx.fill();}
+    requestAnimationFrame(frame);}
+  addEventListener('resize',resize);resize();frame();
+})();
+
+/* ===== Toggle de tema ===== */
+const root=document.documentElement,tgl=document.getElementById('themeToggle'),lbl=document.getElementById('themeToggleLabel');
+function setTheme(t){root.dataset.theme=t;lbl.textContent=t==='dark'?'Oscuro':'Claro';tgl.setAttribute('aria-pressed',t==='dark');try{localStorage.setItem('mh-theme',t)}catch(_){}}
+tgl.addEventListener('click',()=>setTheme(root.dataset.theme==='dark'?'light':'dark'));
+try{const s=localStorage.getItem('mh-theme');if(s)setTheme(s);}catch(_){}
+
+/* ===== Ticker ===== */
+const ticker=document.getElementById('tickerTrack');ticker.innerHTML+=ticker.innerHTML;
+document.getElementById('anio').textContent=new Date().getFullYear();
+</script>
+</body>
+</html>
