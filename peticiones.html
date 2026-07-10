@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html lang="es" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#4264FF">
+<meta name="description" content="Levanta una petición georreferenciada: servicios públicos, limpieza de espacios y seguridad.">
+<title>Peticiones · Martha Herrera</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Titan+One&family=Montserrat:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+<link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.css">
+<link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.Default.css">
+<style>
+/* ==============================================================
+   IDENTIDAD OFICIAL (Manual de Marca Martha Herrera)
+   Colores RGB: Azul Eléctrico #4264FF · Naranja MC #F7941D
+                Verde Lima #CFF665 · Blanco Grisáceo #E6E7E9
+   Tipografía: Chunko Bold (títulos) + Montserrat (textos).
+   Chunko no está en Google Fonts: mientras no cargues el archivo
+   oficial se usa Titan One como sustituto. Si tienes la fuente,
+   guárdala en /fuentes y descomenta este bloque:
+@font-face{
+  font-family:'Chunko';
+  src:url('fuentes/ChunkoBold.woff2') format('woff2');
+  font-display:swap;
+}
+   ============================================================== */
+/* ==============================================================
+   PETICIONES · "¿Qué te duele?"
+   Formulario georreferenciado (Leaflet) que guarda cada registro
+   en una hoja de Google Sheets vía Apps Script.
+   → Configura CONFIG.sheetsURL (ver INSTRUCCIONES-SHEETS.md).
+   ============================================================== */
+:root{
+  --bg:#FFFFFF; --bg-soft:rgba(66,100,255,.06);
+  --ink:#14182B; --ink-soft:rgba(20,24,43,.64);
+  --line:rgba(20,24,43,.12);
+  --accent:#4264FF;
+  --naranja:#F7941D;
+  --naranja-deep:#DE7C05;
+  --lima:#CFF665;
+  --gris:#E6E7E9;
+  --grad:linear-gradient(90deg,#4264FF 0%,#CFF665 55%,#F7941D 100%); --accent-deep:#2B48D9;
+  --glass:rgba(255,255,255,.72); --glass-border:rgba(20,24,43,.1);
+  --card:#FFFFFF; --shadow:0 18px 50px rgba(66,100,255,.12);
+  --spec-a:rgba(66,100,255,.30); --spec-b:rgba(207,246,101,.45);
+  --display:'Chunko','Titan One',sans-serif; --body:'Montserrat',sans-serif;
+}
+html[data-theme="dark"]{
+  --bg:#0B1026; --bg-soft:rgba(207,246,101,.06);
+  --ink:#EFF2FF; --ink-soft:rgba(239,242,255,.66);
+  --line:rgba(239,242,255,.14);
+  --glass:rgba(13,19,46,.68); --glass-border:rgba(239,242,255,.12);
+  --card:#131A3A; --shadow:0 18px 50px rgba(0,0,0,.45);
+  --spec-a:rgba(66,100,255,.30); --spec-b:rgba(207,246,101,.16);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth;background:var(--bg);font-synthesis:none}
+body{font-family:var(--body);color:var(--ink);-webkit-font-smoothing:antialiased;overflow-x:hidden;transition:color .4s ease}
+a{color:inherit}
+::selection{background:var(--accent);color:#fff}
+.container{width:min(1100px,100% - 2.4rem);margin-inline:auto}
+
+/* ---------- Nav ---------- */
+.nav-shell{position:fixed;inset:0 0 auto 0;z-index:1100;display:flex;justify-content:center;gap:.6rem;padding:.8rem 1rem;pointer-events:none}
+.top-nav{pointer-events:auto;max-width:100%;overflow-x:auto;scrollbar-width:none;background:rgba(255,255,255,.55);backdrop-filter:blur(16px);border:1px solid var(--glass-border);border-radius:999px;box-shadow:var(--shadow)}
+.top-nav::-webkit-scrollbar{display:none}
+.nav-inner{display:flex;gap:.2rem;padding:.35rem .5rem;white-space:nowrap}
+.nav-inner a{text-decoration:none;font-size:.82rem;font-weight:600;color:var(--ink-soft);padding:.5rem .8rem;border-radius:999px;transition:all .2s}
+.nav-inner a:hover,.nav-inner a.on{color:var(--accent);background:var(--bg-soft)}
+.theme-toggle{pointer-events:auto;flex:0 0 auto;display:flex;align-items:center;gap:.5rem;background:var(--glass);backdrop-filter:blur(16px);border:1px solid var(--glass-border);border-radius:999px;padding:.5rem .9rem;cursor:pointer;font-family:var(--body);font-weight:600;font-size:.8rem;color:var(--ink);box-shadow:var(--shadow)}
+.toggle-dot{width:12px;height:12px;border-radius:50%;background:var(--accent);transition:transform .3s}
+html[data-theme="dark"] .toggle-dot{transform:scale(.7);box-shadow:0 0 10px var(--accent)}
+html[data-theme="dark"] .top-nav{background:rgba(11,16,38,.55)}
+
+/* ---------- Encabezado ---------- */
+.page-head{position:relative;overflow:hidden;padding:8rem 0 2.6rem}
+.aura{position:absolute;inset:0;pointer-events:none;filter:blur(60px)}
+.aura span{position:absolute;border-radius:50%;animation:flota 22s ease-in-out infinite alternate}
+@keyframes flota{from{transform:translate(0,0) scale(1)}to{transform:translate(6%,-8%) scale(1.15)}}
+.eyebrow{font-weight:600;font-size:.82rem;letter-spacing:.24em;text-transform:uppercase;color:var(--accent)}
+.page-head h1{font-family:var(--display);font-weight:800;font-size:clamp(2.4rem,7vw,4.4rem);letter-spacing:-.02em;margin:.4rem 0 .8rem}
+.page-head h1 em{font-style:normal;color:var(--accent)}
+.page-head p{max-width:60ch;color:var(--ink-soft);line-height:1.6;font-size:1.05rem}
+
+/* ---------- Pasos ---------- */
+.pasos{display:flex;flex-wrap:wrap;gap:.8rem;margin:1.6rem 0 0}
+.paso{display:flex;align-items:center;gap:.5rem;font-size:.88rem;font-weight:600;color:var(--ink-soft)}
+.paso b{display:grid;place-items:center;width:26px;height:26px;border-radius:50%;background:var(--naranja);color:#fff;font-family:var(--display);font-size:.8rem}
+
+/* ---------- Formulario + mapa ---------- */
+.section{padding:clamp(1.6rem,4vw,3rem) 0 4rem}
+.pet-grid{display:grid;gap:1.4rem}
+@media(min-width:960px){.pet-grid{grid-template-columns:1.05fr .95fr;align-items:start}}
+.panel{background:var(--card);border:1px solid var(--glass-border);border-radius:20px;box-shadow:var(--shadow);padding:clamp(1.3rem,3.5vw,2rem)}
+.panel h2{font-family:var(--display);font-weight:800;font-size:1.35rem;margin-bottom:.4rem}
+.panel h2 em{font-style:normal;color:var(--accent)}
+.panel .hint{color:var(--ink-soft);font-size:.9rem;line-height:1.5;margin-bottom:1.1rem}
+
+#mapa{height:min(52svh,440px);border-radius:16px;border:1px solid var(--glass-border);z-index:1}
+.pin-naranja{width:15px;height:15px;background:var(--naranja);border:3px solid #fff;border-radius:50%;box-shadow:0 2px 8px rgba(0,0,0,.35)}
+.leaflet-popup-content{font-family:var(--body)}
+#mapaReportes{height:56svh;border-radius:18px;border:1.5px solid var(--line);overflow:hidden;background:var(--gris)}
+.leyenda{display:flex;flex-wrap:wrap;gap:.5rem .9rem;margin:.4rem 0 1rem}
+.leyenda span{display:inline-flex;align-items:center;gap:.4rem;font-size:.85rem;color:var(--ink-soft)}
+.leyenda i{width:12px;height:12px;border-radius:50%;display:inline-block;border:2px solid #fff;box-shadow:0 1px 4px rgba(20,24,43,.25)}
+.badge-colonia{display:inline-block;margin-left:.5rem;padding:.1rem .55rem;border-radius:99px;background:var(--lima);color:#14182B;font-weight:700;font-size:.8rem}
+.reportes-panel{margin-top:2.2rem}
+.map-tools{display:flex;flex-wrap:wrap;gap:.6rem;margin-top:.9rem;align-items:center}
+.coords{font-size:.82rem;color:var(--ink-soft);font-variant-numeric:tabular-nums}
+.coords b{color:var(--accent)}
+
+/* Categorías tipo chips */
+.chips{display:flex;flex-wrap:wrap;gap:.55rem;margin:.2rem 0 1.1rem}
+.chip{cursor:pointer}
+.chip input{position:absolute;opacity:0;pointer-events:none}
+.chip span{display:inline-flex;align-items:center;gap:.4rem;padding:.55rem 1rem;border-radius:999px;border:1.5px solid var(--line);font-weight:600;font-size:.88rem;transition:all .2s;background:var(--bg)}
+.chip input:checked + span{background:var(--lima);border-color:var(--lima);color:#14182B;box-shadow:0 8px 20px rgba(207,246,101,.55)}
+.chip input:focus-visible + span{outline:2px solid var(--accent);outline-offset:2px}
+
+label{font-size:.78rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;display:block;margin-bottom:.4rem;color:var(--ink-soft)}
+input[type=text],input[type=tel],select,textarea{width:100%;padding:.85rem 1rem;border-radius:12px;border:1.5px solid var(--line);background:var(--bg);color:var(--ink);font-family:var(--body);font-size:1rem}
+input:focus,select:focus,textarea:focus{outline:none;border-color:var(--accent)}
+textarea{min-height:120px;resize:vertical}
+.form-grid{display:grid;gap:1rem}
+@media(min-width:640px){.form-grid{grid-template-columns:1fr 1fr}.form-grid .full{grid-column:1/-1}}
+
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:.5rem;padding:.85rem 1.6rem;border-radius:999px;text-decoration:none;font-weight:600;font-size:.95rem;font-family:var(--body);cursor:pointer;border:1.5px solid transparent;transition:transform .2s,box-shadow .2s}
+.btn:active{transform:scale(.96)}
+.btn.primary{background:var(--naranja);color:#fff;box-shadow:0 10px 26px rgba(247,148,29,.4)}
+.btn.primary:hover{transform:translateY(-2px);background:var(--naranja-deep)}
+.btn.primary:disabled{opacity:.6;cursor:wait;transform:none}
+.btn.ghost{border-color:var(--line);color:var(--ink);background:transparent}
+.btn.ghost:hover{border-color:var(--accent);color:var(--accent)}
+.privacy{margin-top:1rem;font-size:.8rem;color:var(--ink-soft)}
+
+/* Estado del envío */
+.estado{display:none;margin-top:1.1rem;padding:1rem 1.2rem;border-radius:14px;font-weight:600;line-height:1.5}
+.estado.ok{display:block;background:rgba(30,160,80,.12);color:#1c7a43;border:1.5px solid rgba(30,160,80,.35)}
+html[data-theme="dark"] .estado.ok{color:#7ee2a8}
+.estado.err{display:block;background:rgba(217,72,0,.1);color:#D9480F;border:1.5px solid rgba(217,72,0,.35)}
+.estado small{display:block;font-weight:400;margin-top:.3rem;color:var(--ink-soft)}
+
+footer{border-top:3px solid transparent;border-image:var(--grad) 1;padding:1.8rem 0;font-size:.85rem;color:var(--ink-soft)}
+.foot-in{display:flex;flex-wrap:wrap;gap:1rem;justify-content:space-between;align-items:center}
+.foot-in a{font-weight:600;text-decoration:none}
+.foot-in a:hover{color:var(--accent)}
+
+@media(prefers-reduced-motion:reduce){*{animation-duration:.01ms!important;transition-duration:.01ms!important}}
+@media(max-width:640px){
+  .container{width:min(1100px,100% - 1.8rem)}
+  .nav-shell{padding:.6rem .6rem;gap:.4rem}
+  .nav-inner a{font-size:.78rem;padding:.45rem .65rem}
+  .theme-toggle{padding:.45rem .7rem;font-size:.75rem}
+  .page-head{padding-top:6.4rem}
+  #mapa{height:46svh}
+  #mapaReportes{height:48svh}
+}
+</style>
+</head>
+<body>
+
+<div class="nav-shell">
+  <nav class="top-nav">
+    <div class="nav-inner">
+      <a href="index.html">Inicio</a>
+      <a href="conoceme.html">Conóceme</a>
+      <a href="informate.html">Infórmate</a>
+      <a href="peticiones.html" class="on">Peticiones</a>
+    </div>
+  </nav>
+  <button id="themeToggle" class="theme-toggle" type="button" aria-pressed="false">
+    <span class="toggle-dot" aria-hidden="true"></span>
+    <span id="themeToggleLabel">Claro</span>
+  </button>
+</div>
+
+<header class="page-head">
+  <div class="aura" aria-hidden="true">
+    <span style="width:460px;height:460px;left:-8%;top:-10%;background:var(--spec-a)"></span>
+    <span style="width:340px;height:340px;right:-6%;top:30%;background:var(--spec-b);animation-delay:-9s"></span>
+  </div>
+  <div class="container">
+    <p class="eyebrow">Peticiones y solicitudes</p>
+    <h1>¿Qué <em>te duele</em>?</h1>
+    <p>Si algo en tu colonia necesita atención — una fuga, un espacio abandonado, una zona insegura —
+       márcalo en el mapa y cuéntanos. Cada petición queda registrada y le damos seguimiento.</p>
+    <div class="pasos">
+      <span class="paso"><b>1</b> Ubica el punto en el mapa</span>
+      <span class="paso"><b>2</b> Elige el tema</span>
+      <span class="paso"><b>3</b> Cuéntanos qué pasa</span>
+      <span class="paso"><b>4</b> Envía</span>
+    </div>
+  </div>
+</header>
+
+<main class="section">
+  <div class="container pet-grid">
+
+    <!-- ============ MAPA ============ -->
+    <div class="panel">
+      <h2>1 · ¿<em>Dónde</em> está el problema?</h2>
+      <p class="hint">Toca el mapa para colocar el pin en el lugar exacto, o usa tu ubicación actual. Puedes arrastrar el pin para ajustarlo.</p>
+      <div id="mapa" role="application" aria-label="Mapa para ubicar la petición"></div>
+      <div class="map-tools">
+        <button class="btn ghost" id="btnUbicacion" type="button">📍 Usar mi ubicación</button>
+        <span class="coords" id="coordsTxt">Aún no has marcado un punto</span>
+      </div>
+    </div>
+
+    <!-- ============ FORMULARIO ============ -->
+    <div class="panel">
+      <h2>2 · Cuéntanos <em>qué pasa</em></h2>
+      <p class="hint">Entre más detalle nos des, más fácil es canalizar tu petición.</p>
+
+      <form id="formPeticion">
+        <label>Tema de la petición</label>
+        <div class="chips" role="radiogroup" aria-label="Tema de la petición">
+          <label class="chip"><input type="radio" name="categoria" value="Servicios públicos" required><span>💧 Servicios públicos</span></label>
+          <label class="chip"><input type="radio" name="categoria" value="Limpieza de espacio público"><span>🧹 Limpieza de espacio público</span></label>
+          <label class="chip"><input type="radio" name="categoria" value="Seguridad"><span>🛡️ Seguridad</span></label>
+          <label class="chip"><input type="radio" name="categoria" value="Alumbrado"><span>💡 Alumbrado</span></label>
+          <label class="chip"><input type="radio" name="categoria" value="Baches / vialidad"><span>🛣️ Baches / vialidad</span></label>
+          <label class="chip"><input type="radio" name="categoria" value="Áreas verdes"><span>🌳 Áreas verdes</span></label>
+          <label class="chip"><input type="radio" name="categoria" value="Otro"><span>✏️ Otro</span></label>
+        </div>
+
+        <div class="form-grid">
+          <div class="full">
+            <label for="descripcion">¿Qué te duele? *</label>
+            <textarea id="descripcion" required placeholder="Describe el problema: qué es, desde cuándo, a quiénes afecta…"></textarea>
+          </div>
+          <div>
+            <label for="nombre">Tu nombre *</label>
+            <input type="text" id="nombre" required placeholder="Nombre y apellido">
+          </div>
+          <div>
+            <label for="tel">Teléfono / WhatsApp</label>
+            <input type="tel" id="tel" placeholder="Para darte seguimiento (opcional)">
+          </div>
+          <div class="full">
+            <label for="colonia">Colonia / referencia</label>
+            <input type="text" id="colonia" placeholder="Ej. Col. Independencia, frente a la escuela">
+          </div>
+          <div class="full">
+            <button class="btn primary" id="btnEnviar" type="submit">Enviar petición →</button>
+          </div>
+        </div>
+        <p class="privacy">Tus datos se usan únicamente para dar seguimiento a tu petición. No se comparten con terceros.</p>
+        <div class="estado" id="estado" role="status"></div>
+      </form>
+    </div>
+
+  </div>
+
+  <!-- ============ MAPA PÚBLICO DE REPORTES ============ -->
+  <div class="container reportes-panel">
+    <div class="panel" id="reportes">
+      <h2>Reportes <em>registrados</em></h2>
+      <p class="hint">Así se ve lo que la comunidad ya reportó. Los puntos se agrupan: acércate para ver cada reporte. No se muestran nombres ni teléfonos.</p>
+      <div class="leyenda" id="leyenda" aria-hidden="true"></div>
+      <div id="mapaReportes" role="application" aria-label="Mapa de reportes registrados"></div>
+      <div class="map-tools">
+        <button class="btn ghost" id="btnRecargar" type="button">↻ Actualizar reportes</button>
+        <span class="coords" id="reportesTxt">Cargando…</span>
+      </div>
+    </div>
+  </div>
+</main>
+
+<footer>
+  <div class="container foot-in">
+    <span>© <span id="anio"></span> Martha Herrera</span>
+    <a href="informate.html">¿Buscas un teléfono de emergencia? Ve a Infórmate →</a>
+  </div>
+</footer>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="https://unpkg.com/leaflet.markercluster@1.5.3/dist/leaflet.markercluster.js"></script>
+<!-- Polígonos de las 930 colonias del municipio (generado del GeoJSON oficial).
+     Mantén colonias.js junto a este archivo. Si falta, la página funciona igual
+     pero la colonia no se detecta en automático. -->
+<script src="colonias.js"></script>
+<script>
+/* ==============================================================
+   CONFIG · EDITAR
+   sheetsURL → URL del Web App de Google Apps Script que guarda
+   cada registro en tu hoja de cálculo (ver INSTRUCCIONES-SHEETS.md).
+   whatsapp  → respaldo: si no hay sheetsURL, la petición se envía
+   por WhatsApp a este número (formato internacional, sin +).
+   ============================================================== */
+const CONFIG = {
+  sheetsURL: "https://script.google.com/macros/s/AKfycbxX9tMSlX9stRwevrRFckkWSeTeIPalNcXPqRDs4_K5DRMMc-HqydtlcXpSpnRUOw/exec",                 // ej. "https://script.google.com/macros/s/XXXX/exec"
+  whatsapp:  "528100000000",     // EDITAR: número de respaldo
+  centro:    [25.6866, -100.3161], // Monterrey
+  zoom:      12
+};
+
+/* ================= Mapa ================= */
+const mapa = L.map('mapa',{scrollWheelZoom:false}).setView(CONFIG.centro, CONFIG.zoom);
+L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png',{
+  attribution:'© OpenStreetMap · © CARTO',maxZoom:19
+}).addTo(mapa);
+const icono = L.divIcon({className:'',html:'<div class="pin-naranja"></div>',iconSize:[15,15],iconAnchor:[8,8]});
+let marcador = null;
+
+function ponerPin(lat,lng){
+  if(marcador){ marcador.setLatLng([lat,lng]); }
+  else{
+    marcador = L.marker([lat,lng],{icon:icono,draggable:true}).addTo(mapa);
+    marcador.on('dragend',()=>{ const p=marcador.getLatLng(); actualizarCoords(p.lat,p.lng); });
+  }
+  actualizarCoords(lat,lng);
+}
+
+/* ---- Detección automática de colonia (point-in-polygon) ---- */
+let COL_IDX = null, capaColonia = null, coloniaAuto = false;
+function prepararColonias(){
+  if(typeof COLONIAS === 'undefined') return;
+  COL_IDX = COLONIAS.features.map(f=>{
+    const mp = f.geometry.type === 'Polygon' ? [f.geometry.coordinates] : f.geometry.coordinates;
+    let minx=180,miny=90,maxx=-180,maxy=-90;
+    mp.forEach(poly=>poly[0].forEach(([x,y])=>{
+      if(x<minx)minx=x; if(x>maxx)maxx=x; if(y<miny)miny=y; if(y>maxy)maxy=y;
+    }));
+    return {f, mp, bbox:[minx,miny,maxx,maxy]};
+  });
+}
+function dentroDeAnillo(anillo,x,y){
+  let dentro=false;
+  for(let i=0,j=anillo.length-1;i<anillo.length;j=i++){
+    const xi=anillo[i][0], yi=anillo[i][1], xj=anillo[j][0], yj=anillo[j][1];
+    if(((yi>y)!==(yj>y)) && (x < (xj-xi)*(y-yi)/(yj-yi)+xi)) dentro=!dentro;
+  }
+  return dentro;
+}
+function buscarColonia(lat,lng){
+  if(!COL_IDX) return null;
+  for(const c of COL_IDX){
+    const [minx,miny,maxx,maxy]=c.bbox;
+    if(lng<minx||lng>maxx||lat<miny||lat>maxy) continue;
+    for(const poly of c.mp){
+      if(dentroDeAnillo(poly[0],lng,lat)){
+        let enHueco=false;
+        for(let k=1;k<poly.length;k++){ if(dentroDeAnillo(poly[k],lng,lat)){enHueco=true;break;} }
+        if(!enHueco) return c.f;
+      }
+    }
+  }
+  return null;
+}
+prepararColonias();
+
+function actualizarCoords(lat,lng){
+  const col = buscarColonia(lat,lng);
+  const campo = document.getElementById('colonia');
+  if(capaColonia){ mapa.removeLayer(capaColonia); capaColonia=null; }
+  if(col){
+    if(!campo.value.trim() || coloniaAuto){ campo.value = 'Col. ' + col.properties.n; coloniaAuto = true; }
+    capaColonia = L.geoJSON(col,{style:{color:'#4264FF',weight:2,dashArray:'6 4',fillColor:'#4264FF',fillOpacity:.07}}).addTo(mapa);
+    document.getElementById('coordsTxt').innerHTML =
+      `Punto marcado: <b>${lat.toFixed(5)}, ${lng.toFixed(5)}</b><span class="badge-colonia">${col.properties.n}</span>`;
+  }else{
+    document.getElementById('coordsTxt').innerHTML =
+      `Punto marcado: <b>${lat.toFixed(5)}, ${lng.toFixed(5)}</b>`;
+  }
+}
+document.getElementById('colonia').addEventListener('input',()=>{ coloniaAuto = false; });
+mapa.on('click', e => ponerPin(e.latlng.lat, e.latlng.lng));
+
+document.getElementById('btnUbicacion').addEventListener('click', ()=>{
+  if(!navigator.geolocation){ alert('Tu navegador no permite geolocalización. Toca el mapa para marcar el punto.'); return; }
+  navigator.geolocation.getCurrentPosition(
+    pos => { ponerPin(pos.coords.latitude, pos.coords.longitude); mapa.setView([pos.coords.latitude,pos.coords.longitude],16); },
+    ()  => alert('No pudimos obtener tu ubicación. Toca el mapa para marcar el punto.')
+  );
+});
+setTimeout(()=>mapa.invalidateSize(),400);
+
+/* ================= Envío ================= */
+function generarFolio(){
+  const d=new Date();
+  return 'P-'+d.getFullYear().toString().slice(2)+String(d.getMonth()+1).padStart(2,'0')+String(d.getDate()).padStart(2,'0')+'-'+Math.random().toString(36).slice(2,6).toUpperCase();
+}
+
+document.getElementById('formPeticion').addEventListener('submit', async e=>{
+  e.preventDefault();
+  const estado = document.getElementById('estado');
+  estado.className='estado';
+
+  if(!marcador){
+    estado.className='estado err';
+    estado.innerHTML='Falta ubicar el punto en el mapa. Toca el mapa o usa <b>“Usar mi ubicación”</b>.';
+    return;
+  }
+  const g = id=>document.getElementById(id).value.trim();
+  const cat = document.querySelector('input[name="categoria"]:checked');
+  if(!cat){ estado.className='estado err'; estado.textContent='Elige el tema de tu petición.'; return; }
+
+  const p = marcador.getLatLng();
+  const folio = generarFolio();
+  const datos = {
+    folio,
+    fecha:       new Date().toLocaleString('es-MX'),
+    categoria:   cat.value,
+    descripcion: g('descripcion'),
+    nombre:      g('nombre'),
+    telefono:    g('tel') || '—',
+    colonia:     g('colonia') || '—',
+    lat:         p.lat.toFixed(6),
+    lng:         p.lng.toFixed(6),
+    mapa:        `https://www.google.com/maps?q=${p.lat.toFixed(6)},${p.lng.toFixed(6)}`
+  };
+
+  const btn = document.getElementById('btnEnviar');
+  btn.disabled = true; btn.textContent = 'Enviando…';
+
+  if(CONFIG.sheetsURL){
+    try{
+      await fetch(CONFIG.sheetsURL, {
+        method:'POST', mode:'no-cors',
+        headers:{'Content-Type':'application/x-www-form-urlencoded'},
+        body:new URLSearchParams(datos)
+      });
+      estado.className='estado ok';
+      estado.innerHTML=`✅ ¡Petición registrada! Tu folio es <b>${folio}</b>.<small>Guárdalo para dar seguimiento. Gracias por levantar la mano.</small>`;
+      e.target.reset(); mapa.removeLayer(marcador); marcador=null;
+      document.getElementById('coordsTxt').textContent='Aún no has marcado un punto';
+    }catch(err){
+      estado.className='estado err';
+      estado.innerHTML='No pudimos registrar tu petición. Revisa tu conexión o envíala por WhatsApp.';
+    }
+  }else{
+    /* Respaldo: WhatsApp mientras se configura la hoja */
+    const texto = `📌 *Nueva petición* (${folio})\n`+
+      `Tema: ${datos.categoria}\n`+
+      `¿Qué duele?: ${datos.descripcion}\n`+
+      `Nombre: ${datos.nombre}\nTel: ${datos.telefono}\n`+
+      `Colonia: ${datos.colonia}\nUbicación: ${datos.mapa}`;
+    window.open(`https://wa.me/${CONFIG.whatsapp}?text=${encodeURIComponent(texto)}`,'_blank');
+    estado.className='estado ok';
+    estado.innerHTML=`Se abrió WhatsApp con tu petición <b>${folio}</b>.<small>Cuando se configure el registro automático, las peticiones se guardarán directo en la base de datos.</small>`;
+  }
+  btn.disabled=false; btn.textContent='Enviar petición →';
+});
+
+/* ============ Mapa público de reportes ============ */
+const CAT_COLORES = {
+  'Servicios públicos':          '#4264FF',
+  'Limpieza de espacio público': '#0EA5A5',
+  'Seguridad':                   '#E23B3B',
+  'Alumbrado':                   '#F7941D',
+  'Baches / vialidad':           '#8B5CF6',
+  'Áreas verdes':                '#16A34A',
+  'Otro':                        '#64748B'
+};
+const mapaR = L.map('mapaReportes',{scrollWheelZoom:false}).setView(CONFIG.centro, CONFIG.zoom-1);
+L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png',{
+  attribution:'© OpenStreetMap · © CARTO',maxZoom:19
+}).addTo(mapaR);
+const grupoReportes = L.markerClusterGroup({showCoverageOnHover:false, maxClusterRadius:55});
+mapaR.addLayer(grupoReportes);
+
+document.getElementById('leyenda').innerHTML = Object.entries(CAT_COLORES)
+  .map(([c,color])=>`<span><i style="background:${color}"></i>${c}</span>`).join('');
+
+function fechaCorta(v){
+  const s = String(v||'');
+  return s.length>10 && s.includes('T') ? s.slice(0,10) : s;
+}
+async function cargarReportes(){
+  const txt = document.getElementById('reportesTxt');
+  if(!CONFIG.sheetsURL){
+    txt.textContent = 'Conecta Google Sheets (CONFIG.sheetsURL) para ver aquí los reportes registrados.';
+    return;
+  }
+  txt.textContent = 'Cargando reportes…';
+  try{
+    const r = await fetch(CONFIG.sheetsURL);
+    const data = await r.json();
+    grupoReportes.clearLayers();
+    let n = 0;
+    (data.reportes||[]).forEach(rep=>{
+      const lat=Number(rep.lat), lng=Number(rep.lng);
+      if(!isFinite(lat)||!isFinite(lng)||(!lat&&!lng)) return;
+      const color = CAT_COLORES[rep.categoria] || CAT_COLORES['Otro'];
+      const m = L.circleMarker([lat,lng],{radius:8,color:'#fff',weight:2,fillColor:color,fillOpacity:.95});
+      m.bindPopup(
+        `<b style="color:${color}">${rep.categoria||'Reporte'}</b><br>`+
+        (rep.colonia?`${rep.colonia}<br>`:'')+
+        `Folio: <b>${rep.folio||'—'}</b> · ${fechaCorta(rep.fecha)}<br>`+
+        `Estado: ${rep.estado||'Nueva'}`
+      );
+      grupoReportes.addLayer(m); n++;
+    });
+    txt.innerHTML = n ? `<b>${n}</b> reporte${n===1?'':'s'} en el mapa` : 'Aún no hay reportes registrados. ¡Sé el primero en levantar la mano!';
+    if(n){ mapaR.fitBounds(grupoReportes.getBounds().pad(0.15)); }
+  }catch(err){
+    txt.textContent = 'No pudimos cargar los reportes. Verifica que el Web App tenga la función doGet (ver INSTRUCCIONES-SHEETS.md).';
+  }
+}
+document.getElementById('btnRecargar').addEventListener('click', cargarReportes);
+cargarReportes();
+
+/* ================= Toggle de tema ================= */
+const root=document.documentElement,tgl=document.getElementById('themeToggle'),lbl=document.getElementById('themeToggleLabel');
+function setTheme(t){root.dataset.theme=t;lbl.textContent=t==='dark'?'Oscuro':'Claro';tgl.setAttribute('aria-pressed',t==='dark');try{localStorage.setItem('mh-theme',t)}catch(_){}}
+tgl.addEventListener('click',()=>setTheme(root.dataset.theme==='dark'?'light':'dark'));
+try{const s=localStorage.getItem('mh-theme');if(s)setTheme(s);}catch(_){}
+document.getElementById('anio').textContent=new Date().getFullYear();
+</script>
+</body>
+</html>
