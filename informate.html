@@ -438,7 +438,7 @@ document.getElementById('filtroFichas').addEventListener('input',e=>pintarFichas
 /* -------- Formulario Súmate -------- */
 const SUMATE = {
   whatsapp: "528115285910",   // a dónde llegan los registros si no hay hoja conectada
-  sheetsURL: ""               // OPCIONAL: URL /exec de Apps Script para guardar en Google Sheets (ver INSTRUCCIONES-SHEETS.md)
+  sheetsURL: "https://script.google.com/macros/s/AKfycbwNUK50NT7ekLfFzSXGMbfJPwfPNDajGWx7WuYYtQbboYCYylIMLG5vDjLJeffXVr5G/exec"               // OPCIONAL: URL /exec de Apps Script para guardar en Google Sheets (ver INSTRUCCIONES-SHEETS.md)
 };
 document.getElementById('formSumate').addEventListener('submit', async ev=>{
   ev.preventDefault();
@@ -455,7 +455,7 @@ document.getElementById('formSumate').addEventListener('submit', async ev=>{
     colonia: f.colonia.value.trim(),
     mensaje: f.mensaje.value.trim()
   };
-  if(SUMATE.https://script.google.com/macros/s/AKfycbwNUK50NT7ekLfFzSXGMbfJPwfPNDajGWx7WuYYtQbboYCYylIMLG5vDjLJeffXVr5G/exec,{method:'POST',mode:'no-cors',body:new URLSearchParams(datos)})){
+  if(SUMATE.sheetsURL){
     estado.textContent='Enviando…'; estado.className='estado';
     try{
       await fetch(SUMATE.sheetsURL,{method:'POST',mode:'no-cors',body:new URLSearchParams(datos)});
