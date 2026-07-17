@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html lang="es" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#4264FF">
+<meta name="description" content="Información útil para la ciudadanía: emergencias, servicios públicos, becas y convocatorias.">
+<title>Infórmate · Martha Herrera</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Titan+One&family=Montserrat:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&display=swap" rel="stylesheet">
+<style>
+/* ==============================================================
+   IDENTIDAD OFICIAL (Manual de Marca Martha Herrera)
+   Colores RGB: Azul Eléctrico #4264FF · Naranja MC #F7941D
+                Verde Lima #CFF665 · Blanco Grisáceo #E6E7E9
+   Tipografía: Chunko Bold (títulos) + Montserrat (textos).
+   Chunko Bold (demo) incrustada en el archivo — funciona sin
+   conexión y sin archivos externos. NOTA: la versión demo NO
+   incluye acentos (á é í ó ú), ñ ni signos ¿ ¡ — esos caracteres
+   se dibujan con Titan One (sustituto visual, como prevé el
+   manual). Al adquirir la versión completa de Chunko, reemplaza
+   el base64 de abajo y los títulos quedarán 100% en la oficial.
+   ============================================================== */
+@font-face{
+  font-family:'Chunko';
+  src:url(data:font/woff2;base64,d09GMk9UVE8AACd8AAwAAAAAP2wAACcvAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAADc4XGhwbmgwcbgZgAIVqATYCJAODCAQGBYkYByAblj4jEcLGAYBo22GjqFGL0wZR1MRACQX/IYEbQ7R/YFWhQTTIuJI4g/Zoco41I0c4yGIr1LCA7kboFVyw4saFcnEmieXixffFFR3iL0do7JNc+P9a+3/XPqd7oAfe3E84HxUwK6QQgo0n4VCmfOLiwp5g5uG3+X+JvND3UheFFkGbsnCCgc0QsTDje1hUsai6Cxbl/g6LKBcVuOcL+n+4Z827vyDAGCNc9AXw8/c4tSazY5jnw3i8YM3oLwKXUqKgbZkiS2yWLLAdaOyWA+1yusR46eGT7+/d4baQVFZ5tSU0vRv4oRYbvv/7aVmoShLO9VTzSH/99EhlQBlQiTPIIIM7yNmudPW+6cpb78WG01RNZ6bopS4HiR1EHDGdDqXVaGakXcGwNAu3c2hgjBzyB4A1rNHUYTb5JEvSDQCoHWX9QrDEyfKhwmfM6I+c+m84LVlzM161h/H+qkqkxCksI8QHREsAWULK8bPvdf9PV2v/BFsOy6F5VGdzJlXBo2tnZ/fey0w2vOQu57isoEFEKtWmvCy+gpxYcA2H99RWdDQtRUXXUpS0dGb/LWt26/VdJiW7QiJkSEagRO+fXpqa4hNyk+0Qojq3oYeYjUVIhEZIlEeH1Fyg4vM14xjmqm6aLk2mqACRR63XsW/+mxlH+lVICPIQEetZCXasEUkEAyQM03Zj5jtBrhXNfKNdZ4n8U0JPr545NfDnXJtvqvdMCb2jGtfb/vO6mDDrr19i8Gmmf4ash/PH3RFAFobM5E5SOKZN4p1A1d4qT8+lG8b9dtqPHhv1p3dT+rdu+rkm+meMHlTprxjk8kzONJayBLhBHk29h5G2X/BtCaTaexmM+zwk+Zdzlil2FgKQpggQzP0CzAQ7gC6NPkAr1VDBVngCOtgsTX8BJvWAGyUXMEeK6KW6ZAJKAWcHbAJsgXkZ4LKTf6xU0kinKG3UJ3PYbDttP/wuR73LnwVraA9fYlacEndmomx5Hprn5+Pzh0V8sb74XOaWxeWE8lPKTaPTj2pTNbraWr2oVfXcem0dbPqmqbnaBNs1bdcYhZk9triLY21n/WAfZ1ewt7EDHDXnABfizoC4UBX0FvbCU+GzvJG8e3wVP48/hD+dv4z/RUASnBUcEZqE6cISEVX0KfI/5L+cFpIfsi7kd+htoVNC/yueKKmWfOq97Sv53Y4nj57Uz02fe/TZ+bP6+eemZnb0/Pv3Np9/9PTWM7umnn72iQ/3au1NuwIHd5lnLovsRku/K/jXGqhl7evNwEbaJC2W+HYHHrFWKoF5Nd9ngZlG/9yznsZpSX5AY5MD9zkrLy+jRvN00Pd0mZ9pf8FTKq2URZPm8gUKCQFEiJGLqWUtipcFrqACOZVaFZhv+AqBbZoj21ElLa1hOxnCMs3pJ2f+MchbIfvTeoEyMZrD4b29xZUJs1GSt2vE5j+YcgVtjZ+bybFkzZpMbj1p9wlTYwYI/C0yqCUwfp0vm3GjkapoNglT3MiXyb5K4KiCbydaegYa8L6UwK8V32pqsfF/otdD0rmQ8/VX7QRGp/6E4MB3cXd2p8l56EcuiSjlo4GWmpZtQwGMBDyt6anDMSFGfWDkJU8ruk0CoqVFIZ04f/a1yp0LaKW/Vc/iMrFijESXZbLJRCnOvIaVSNThHyeUpXRINXlWA14toS/5j8fQVwpKfZnsOKQl0DuDbtAPoWT/iN03ThFbbSR15KhIp/DxyeNXP4yihLhD1B3tTwPl4cxFMHI5XBFxHdfh5ceAfmeex/fDJcJy8wWiwUUghVDj25T1hH0jXEIp8ZzJWVAThxpUAH6C5llEq2QuZniwiRLkNZlI75CU4tfLQMLzNjXTmEVwU2npg+cD0DigiwYdoPwbnIoppPzX64jxxWyg03lmiZbtOZDWzrXNHDv8O8fuuOKy9Oo1BPuUsCmJ9iQ27bM9fyqWSFMgmgtsexeoNg6kdSE0sDToAyHSQ62ER7UTc2NicrmkIejzBqUie7u0G0W053NnApB9LFT5vcbMAvy4hN28mkAY9R8DdiEGix2317AkolSOBiqOA61ygcealKLsKCRGTkmDjMy8PXv37MuzZ5+0u00ZcQwCB1z9yilH3OuH3Ngw881W4qgI55GnmpMacM0RoKH/IPqVh/GABtUCHpTNmfS2IopxgBsw6d2OlVYq40C9prlGmPgoFrn7Ezf/QNDOBvZmA9KawkBhWUCqDKq8dg/dMV1RCFhoD43138HOOghCohzAXbLvO3oALyl86s+S+GIx3GFshU4DJbjA3sFQtYj5Ote0vZeUSBxYYZxjP6ukUrAvAFpi2q4LkIyDhryZtzPpar3e/W9wU2a+xWzM8KT6gJT+neeGz7sMKBDEiSa6mGVvadDz4qCLXGC92T8nAlL27IQ328NWr0vDEbiPEUpHkSYe07g58lWHSZFYqUwrBecCIHst4GKjDEtpgTRijbYpNN9iYhS7o9CQNDpX2FGiF5fe42c0x4XRWwDb7C2KzqM8K0tNcp1qHWWPkIDW+1sjdtcAnnHFAcsQgmUKtyJcvEXVz5DPJpkBIlOgTSOjeUAUXwu4qSK4KU9bylqaYcyK6wgwFTLt57MKUHynJn98ISIKPZ/bcq+Coi5+hzkLGuJQH2ZNc2AN8I0gIPWOkv/7c04t2fLCC4/df8tN6weXLl2/5Rn2T2uDPNqX3AHxdF4zCwJvv/4b6EIR6TepO7aUBoYA/lRCF11AoQUaUq8CmcQu9MA7Jg9eeOGxB2+/dX1s6dL1m55kvTD2wLPqLozBjtZvW8Ssq/vJg/vP53WhLfxqUlNbLweIXXffJ0gIYx411xsBYzmN06EhBvVRPCouD3BtYiqBiyFLoi+k4dpVS7Zjwfu+cggQJjcSWytloxolGlcPUDTrtQcQDCNC+kHqjvLxwQDG69ysPabqvWIpKzOp/seHT1Fs5MCDZvctyLe0L47uwH6ZyRNEx3JQ6F8pLWWWx81mTPDkdUCnJn45hqfagqeT8DIWpw/gaedmT+JnSYTr5rt0+CHlvEOBN9w/IkfQMjKqUUFM7qFjfeBWj6iJl+PxYXucYDmyLWRmk+HBFYFzZiKlJHZEqBKsKxDE5EIcmwdYb4lG6yZgOWqikW/aBLu2E+jz3RapskDfDp80xW0jNJXK2nz3CuDcgkC59tpGf4RxTX2tU+51+RG9eiD48TAxjFK0xwy6qYrdmBXV6YWAE+2RaTkWT9nPsJhYCPCrEga4PdFxeN1ZnRZnCZ5ipurC0LFZnQwnibFBiPIS0opxNOjGotAMwTDNIENBeDgFIncuo291LK/QhDGr1kEJSH/C07L/O0jp/WAUb1XaOco1SFIl26lQK2ZDNZnXmFbDhRa+rpxQzSc1dwOu5IBmo8hi/AqFwV61cQHQmlaQTfDBEZDbSVdBVxAv+SZ1lwIgZhO1jQET2vQRSNfaeHHdJI/p//WB0pAytF8n9uukZl0ANLsoZBC/HjWnbKxHPotslYmf2jQfbvls07LcgkMn8n9+WB3qw1U81F7z5nnY5HVRXRYwVK8TZK81D+wBpmy/UOfb1F4KdlhEG0USbYgI2Uhp3SYq5P0nccXM2GAUB5Xw8Tp8bLneWXVfxyEdgdflAMHGX+dJlWQOa1lF+NnEGZnxQp6koqa6vIv1GXGgdS4wbEyC6UtIHhET0y9NmJHprJv5JPILZoPFNGypAuq/U9NQBDyPoglct4r+04g6Fg9ZElGqSyEpIOijYoyTirS6EuTnrVEwEJaChuhp9DsmDAQO6Q4FcTlAzqKQSbJ2rLhlYXrkMSmRMHXrjnvfRhC6eQetyKr4hJyOy7l1vSRezsdFPdDLZdNH8ukqulmMfGsrrAtsbYaDgy5etkKMD7EYLy6ddGJMEsfQCWdIxc3OPC8EgyRGUh4aJtIr0IynjDG98ZG3JmHuFB9KkPPijkvniDpMwO4WJZBsDGUfpTayCK6gbAHJN0i3xuBSQHuyyZMEnVc8drRtzT+78roxWb0+pRqHYJwL8lPuyds1EAALM2j+Y1fjOlpgubibQn9AJIrljoo9wVKxKUOeMCbeaVPIU12/h2hzUebPbPmA8k5T7+dcB+dR7IYMg+j948HGpvAdiYShUlbZaSYniw/GFLefdj4Acs3shKdMrUOndexAoKdBp7Cz6ZUUGU+S07K4XQjGdTm/B/htQaC3TeDEAbBnfxjstyi1idfaw6U4EM8FnKA+eA4NxpuPXOgivigBZXAXoPlGNruKXRtOMwacZTEeGEUxSqNDY0N3sDuxtyXNjeNTjocLBwIJOHUqTIZ3K9/u5VRfsGRhHxurcZoyNlX1gNw9O9Htw0PcA9QJPPbDRFGqIomjobyCoOcNAPlkcsOjT70RXWn3ZMzxo269at6O1Y+lWBnoB+6Gd8uGMHdeqz041ncHO8v/FLBiN3p2mT8A1iLhrLXtNW+qdzxcxmMK/2tgpWhnAdGkopBKklA98MWsjWJL5ciObKul+W/QmpnrFjZmeIRReCmpkLkHp6isoM1qfMVctUH37UXwlzSxYpTADkNXhj0SO7fnbw4el3cZO0nnQDCukIZP6nnx/IvDeTiG6GzOX0K+8b8L3+DrElk1pqD+qAXNkCVvuwKOp3pmTqnY7yPX6LJrkccgH3y5e2UhyO1LYAZgfXEScKEWJze89U6Qr3aHQvtuBar5VSfdQanc+nkWSBCXTkjhtFTcfHq2VC76hLMgqUKpQ5JcQ1YyJdeYqkmqCI2N0uaMY6MhhGl8x7xsnOOyGx/BGE7rkxWuo9dInWug7ak2osbzFZmxzgfrdtwTP8EQ5+ZVzIK14mtC9Xr7Fw0gIll1233ypB0rrfyDUKDJAdrjb5Q17kMrlglcjOHphl58XEBP8afKGFiJfaj9UHlgQQhqXOA9LBoEXD07gavAIAOjf+O6NUSdh86OO4Gi7dujG/4osFrBmRDJhyiyA4Jbz7NjpPTKxPVBu85YCktEtNOO9rmzh8t22mEP+XHlUVzpjMEnuCPJiZH8CUS5RnPExgsFjz/2DIsjnFtozMFV5X5agEePL4mas3JakhvFsBwznpTcWxjON4okrFcJw3N+uglLIpSXCvxD4oRjAR8Vfys8MmJmuyLZVskVILd9hx54UsxcP12W0RRI6oLZP0l13gbCNoGd7OubY4Q+BMK6wGGtIZUknhC27EYpmMhL2T3QLMDl288kWxQd+glvqtedi+geRJ1OOtMtcNJSkON01HtAEwoB37TD80/YeTHCV7bc/+ojWHZymVJ3yG2ytEzQUVqW4pTXld3hKTrst4lWZCdkKTbI57wCrRhKd5TOaAU1+DWakdOJR4qfu0ii6XwtFkuSMta848YRvOq75VNeTIAWYV3nK3eUZwMsXsMoxRmGJQbZcFjxSLNJj7xcOfPfi3cwIRtyjc0TuTNBWTq2UPAM2VVpR2BEto3qYl3VcsqWBC5oYgSyhuZTd6kgWYpN8hsFr8YA5aFNt5CA67hCYFduh6N03Ghb9WigEUaz7IJCP3R/PlHt6sXqdbh1vkW39B/RAMwHFrcOgblUr5v/NTiT03WxyHW6f02WUkpyv37UrSMVa1M+QgrKPnn0pIpUzrDI0orZQb3w+Cu8rkd1kAPhM8dxmekyqfo9oMZs3m+fsPNipJ+bvbHiD6iNPGnJynPOUM2e92DQa6necrVt1zkJypjUbCBXFO+QXh0HN6wFZJNWDVtAslUZ65da1GQ67MaM1ICDmByiULX1dvNygMhmg13QBjKlimY7QaQifK4CB5beAhvFJcrFCS8P6Hc6QVf0iTrJSkBqlkNMBVDpzIGithRGya2IHpNnbXn0OKRwgwO9nB9vKAz3DpzrdDbwkWzgtzngvAKwWVrOQqyu/J64Oxz64Xdu+kJMEmtRasuu7JV2YhB+EbbjHzajJkxkUq5QB6uJK0lz3mFjYYNr9hzIjeOmN1Pkd/Pti+mTjnG6O6YUjgb98lhIYfH0dUBXvprT8YpOHiMp/8bw1rCr8YNFYmF8ndu7dVt/bBZo30gSz0l8goQdBDMPhk3+tpPwQ5y4LJ6wtw1BjmpLmdkwxTMPnI3yllgWgYKqtRh/eNTDPdPEbqmJOjqrwhm8f+r4tS+iaGTVOkqOhl1O9gfYkg5MEFTaCZTCg0zkWGnYDhxQhd3VgO8YLiunBcIuXtBCWktxUZbmAC1uDO1xnFhyRrOApKaY6O6LfwomWU575KuRpEjiKagHi3xukMHM64B2b/nLbpwYyvX+Od3rFDmOU4UzpiGmBpZFpBFzQLiCSmhzTnJSrJPBJNnTBuZQp6ZIB2R+iHChlgYwgd7SXN6hVztMg+KV6jVE7s0oUqqoteRYRo4ns3XlWm4rviiiD5i7Y7iQHnhCKl7kxcBKFKjz1jf4g8XYcNgMUasJ8Nd2pvAoeJPmRXgCGVRzBtvBIB6jUQfWTUggIesWq2PxckWRUpSt2B2EP15hT/0Ryp0g6y5pyIWyuXXw6HF4cN16jIPJdrGwncCAr7SyOxSFAxCQ5ug4tYlTrLcF6Ypb510qH1pSKdQvAPIUgXTixjWgof1ZkJ9vZV10k2gUhO5i6u3EN0X0HZ17Bn2W28lVQRLeiGiNlI4cZWU13jl98NJ7UZRRdYQSnNuMytq3e+5Zy7qUmrIoocgziies6Z1/bZSViGmKLrgQfRTKQ8MfnjfD8vVHkdGWf/Q4JNksxw/0cs1RHEb1kjs9ff2VJ7bT6bXZRfPXjo7jU6700BOW036DGPhCbkSJ4uwXcdGJ4QF0yuqcVNti+McXoYj8FLMQrIj4s0ITwIAaM9BOBvAczTqyKrKEErAqUHUsu1ZJtLbsUjkRlA8PScPpOBOddCYy+IJCWcTFege4TVOPhaPjR8P961nkJ2hIYVzsUi4ObQY0vw7w/FxAWoNAqgtTUwpTEd8MLhwD/0hzG/0B/mdNq+435hqb4F9c2tBDoHrAmMvF2Oq1Yeix8I84t5HGCHJ64PC6qOguDk8HKeKtcpUwjDW8piZVsu7ATGFclOVqkp63VJ66kSk4tOTJ0kPKJfKm4kdL0tv7qoW2rIuaVzTnl/Tb1yqXc0d+ecm+qmQa1b+7RzCxJoRFLqMYKjhZoJazC86uvjztOrVJ7f0aXP/MrHQtV9ONtnXNkjRzX29Fau5v+LvgyyZth+RU331jFT4qRNmOZNsN/kT7+jKcpBrqkN9LdQL4CoUEjYAJJBsaqcUrNa+ZzCOStoEMIqe1kandCkgjTU7qRgy0fh7NV2w61tHGayrPAXlJ4ECk5fYAnA4Gt6VZZnqHaW2wqOpOgVgLOtlepdx/OTNkyZ2nJRBLsUYn6JVp1tSkAU9F2OnT+vrXkRfXP/qLGkETOIRzLDo08lWEdZQXQP2DJu01zlsZADLXh4+mm8MjgNQUwOO66wQ0OhVekjzaYR65jOUQu41+9BU/HDB52jWv/HBftv0+vj1wG0h+oaV+s5cX5meIt6qsj17aTVUmOhuiEtS8rpIkyjrbUpP8WdBJNpQcXiebVFneccaXMWTjI5+tZwLjW2VT6sExruslKtWLkmnAE1/pAdxUo+eHoB04USz5HVibkah5gcANOEpJ98KMK4JoqFxp89KGEtOOer4c3eRJ1CwrWzqLIdon6PKXaVeXP5aD0OrcXPRV5NaZnvduT8+++8Ta3RdcsGbRbax8uR1tYtKoe7SNE25FaDrKJqA0n1YOdoAdpO+VMlGpdDqVLadQPkyL6EIpnnIploaoDK3lqcu56byI+ZgnStG9APb4G3UTFnDiaaycjNYw8Qu/pI2DSjCF+e+xSsG9AKjO5Lt2rwG5cVo42yGfTe8l8mKHay35Z1I0fLM1TYY9Loa8fh6WWA1UdwKk1xrhTO1UQG9XwCfbCfSkpkjo8boyO9mK7s2KWAomroL5G+xo38AG1JWDjTdCJvG84GtWmU6YML8iO0GA84ERlXeAef7aw/0WWUnyxHqdz5KvUY82nQrxiy/uP+RiqtM7y77nfpEIy4Y+31p3ALGmM1JuYOJtpB0Ikq1JpK3Emh3oOR4kKq8ZFqG1F5FXHOiZPaKaxGB9PRSz7HyGhTW7spLyw/U/urr9nsen4Kg20iJntSQ1TPoX/K489vCjdjKbdjspsiIQJQxn2RC0MsKrEEsEk0jTIUursIhVMk4C6Ym9vIuiRPs2QvaHP4IFyH+koHaWlGjJ+Swo+QYlUTx1lked+OWYRw218XQP1HbH087l4Xme0reI2bDYBlgwov53vaqlQc4QuxCtOxEYmwvGkHucPCuXUKV3SneKC4dH+Q1L5NlP82DG3Zxjn04F0hOZboZVJSkTeXEyjbxSEsNGBDXdDePosmOBsMVhdaDldqHF8iyUc758B7Hh8CivohFe8plp3saR7AFL/ZmGCSw1t2TuRHy+FWFdSOnMdUZwHtwMNvvjPvODbGHXeIYXifnRu/xNW4Q0SI6g0ZuQWw+NEaoC7zk6pxPepvH0AygPWScycb2cyqyWYWtju9cicgBftekGUMd7lP2crgjHEKxHo3sROYLXZZYwsw8BxN/jUEJrsJeN2ZD1LCdH9SfcpNk6peRI0H2x9uI4C/cEN804x6oazKO7pumqXgG9DiK0p1aohOnht4hqqpLuv5eLTNtTm7al6RbzSXbHmmExneTdGVzQjGkil7+ycxnb8+1c/FHCiZyID3yaQA1qu80txFNcgiUhvQjTnN4dm28Xqk9Q9QnaIjw8qwazW9y95IUBRNWbgkUJhYJwPGzdsnmXRmVrFj/p9POnZ+/9+j5WD548RX5z+BiDe1unFVcqboqBx0O3Wp6t3NAGB6rWLKI9+wNPMUlBjDUi04TrYrF5+eDaQq+9JfI6/R5e7T8O1DYY/RFS3R8eqP2jGRs6kL2TG5r5o4gawtGvJvKDqp1jlovDFd0MOqWmYQWnCjukVf9rKML8MOcf6UXuNGCtIxNsH/0mTrHUpC+6rIOxz7chiPQwpS9HcOczrONK10deVe2wi6OPlT9vL5xZVZOcKdoMTtw0Q0Gmhzl9CAU7Xs/ahWKYRs2WOsG/iXMmVD+B16deRgT5Ycpvjki5a9H6MFeLM8hb6nf2WS2PqDCAl56ZNZfQjE9I4mGxty3mg7Z8wUkUa/CuxPt45zbzsJKcMeGDJciMvGHGasr3hd2ukd7bzbf5V+qc8tBlm4OZWkHryFnRM4WfLLVeU/8wP9Ie/3J7cLQmLEqwVRrybB8RtUpbGmkH7w6A4FAXmqe0+NER4TiPqN7qdEpffwyyH5ghTRncGqndbp7jOMy54JOOYI7aUBrFF+iWynZcpCxQD0s8J/v2S/qCJlUnadRSU2f4hkHmxfsxYwLJnnOeeMkP6lUhbeTS5bDF05vSO/wfQcz45Ly9lBn5UyK0sEnR2iBZfHwNUgM3Aw/LhYKZJYCGFQf1REjSwowgVS9z70X3sqzh0cGMAqpZBkk++9zq4Mwya9HmauxstAb5ujgum9yAJTTk8pH1o5tCKY+7qVORMAoKL/5/Jr5FgtE/7I9xyU+azh7gIvYyV2M77pS0cvD0jm1Pfgy91BkICbAD5v7W2d0fpk5YOif4qW/J2ehLw9b0H3OP8aTRjn8SHNX04GPZP6KJfi7QMkAU1HQgAhIKGhHiJUhlk6OAS5lKtVp4DTTSOFP4LLDMWpvttMdhJznPLR7yko98Jci/ihgahiW+QqRQuKJlUJLSNFzbdEP39ceEVVqaFVuVNZrXZtkq22ioHbVb9sw+23f704bkOFe6wTPd5RXe6gN8pE/w6T7bl/tm3+4H/Lhf8Nv+2N/6R/8dCAnPDeKgytOTFqA2Sargxziwb45MMieQOPpZykvAcR8wIGlwH6TxNSmZahIkRmDdCb2vL1q4h2KKW4QCOqIwATGr//gYJMYXJrkSmFTxoQDKsfC1jN4GJEorO9vaskmsEzEcMohQXDFgoTA823Chwi62KiGNwhHRGYKQC2IyAkZJR3BayUdgve+A/uK4aqRsEMfAhRNB+NtOmuMd7ROK4pyekzhGGLjcfp6QkpzPAc2gaIjW0/yadMOWRjpIRCrZDwvyQ8ptTY9cCwJxmIWZ6byleCzs6KMv3d9q2HDSD92LEDI0be1PUh98IeFVdMKK0ikpnzayuxbu68mMFCeTwedfTL78cfTd3ndfdVXPvBsWtddOplmvIoo6r9mI5e4i3Bj86ccZSb0+e7HIU8aqWZbDgYHebRczDFVsxVZm3UxCzs57wuOPgtM+qdiDqd7lrdsY5lTsyFm03tQjdGbxtleOwaMTs0ceI89qEEXv8Wq6gjCcqI5zA7S3wnXCsNlYJCUpkMVUVw8EbvTbZAqICF+xLsqxhzmpgXXoXRMoYEGpS4WIPmCkem0paNkWE6O5PmwGejE/dHUXNMpeVw978257kOUJBYFu2qFW4UHww3MRu3H/nngt6Jw6jYuTa4smpOogF5wX5zABpkL3yCG3YHdqilJJxprYCbsT6yfioOcVsqS1UPW7JlOotjxc86B8kDkplyBYoiXaOM8u1PmCKkq7muxKbdtBKDIkbnz2+S4crEOVP5VOglFoPf+s2z/EaFgL4hRYdxGIk4C8RUDQZIZU4SxmQVaFrIgGnD5otueViw/Mfv7y4tmrrurpuZoV+bQigSPiGo/4O26S6xLJ6MxAlC3vc+zN62wrKlx5ycphmdEyrQT/JII3z+sWxTNFmSSMWXFmYxDVgTwsp4QimSd1ZoM4GsgZB3E6SNpkZOOxik3NeIAsDSzluVjIy9B0M1LTfgzCoEAoMCByyYw4eoQFnx3emWmZ+EiF0FcKnqJfhYDk3SxYk2NsPv4yPGZSmdXQhH4ixBXcsEv4wUYwSwd3PfPUxK7HTmae0KwTBcCj4dfLCIXo9R/rOJJdoRIW0Z6YSoQsAUBATYHZq5TVuQjDJQWLaWpimRzYXXvWZ4Jx66XUJ0Tw8JzaJSFZsnTLtdj3TAxyJJppSw4YRWiKf4GJJ+jn3mKy3UfEaJQou9o0lqZM1wpdAEhrfUvvzWOTbY6ts0M28oTPcc761F/7R/9e2RNSSUtpYM0UYfU6qIM5WIIrlIM4a5DmviJNeBl5MdlGxqa4JDSbHEWgMrkWwbxIIK4sxKyVqdgm4mLGejzNVmD4lsSCVAMH0JCX4w+FCdHzSH3iiI1xoH6VBsBolYlAH9joXr9BJmjAAdYgABwoE3hJBHTJGSuIW3HVl5g00UOhQTRAMhJuEpzaeFOdPhDEtnJAeKZYupG7FyChJ5/PCnidHQKAZXEssqwhrDuZwnoyIjHrDAdNJHgEuuhCQgQJZYCciqDKEOnRHiWHYTDgQBd1Zbf4vdiADEK2sIjg3vfbFjLloRM2YJicFSJ0G4k39KgjsWxJKxkxKKTWAEEDg0yABTY5CriEMuBbvNjxp40wJfKk3FuegMFgcUSpygwzagw6RfgUO0QxOivGbLkUvwI9DW5BlCmMUBAIFJW2VvMfCEMZfYjwRQmC4S01xSgXNsZWEdc6Y6ZZv0MihGRJs8tnMVPg0Ore4Fl+T6ewoMJETwSWhMEkgPhyu9PLwB9MSoIBsCDCcAhLhVEiFyktZjgZMFBnNxH+blpXTV/o/xqfnbavPTDVpiCbOBBvpoXfwmqnZ6TQ4p4aXk8L8LtQiMBkzGvQQV5NJYAGAoFAIFDkYqmyBI6VW2NRJfGqag7aYoPwBDMBzPa7RBJthT7GRYbrzcXETduT1Z5KWVoNb/8zxG0ZFpgN0j01oFaBKcU7M35krxxA1YRmcMdXF+f5/ZQXvwl4jwmlKYf/VyYJma33aelk/997+mgHZ+GpIqjC7/vaJB4Zjg09diPjJZKmsVWr/RRImFsAfZTeGPaaTceZoPmk6EwXTxwGZ8S/W290oRXZwCSW5XdZH++nq4hNjaevtiA3g++hvJsGn3n4peHS80oXZteqZR0/PJz+Ufsd/Zec5/g+wGxsM3+xX8q0P6ZTs/qOLlZ/uv8QffyRwuy8yU4/kJlRlI1VXWe0BPr3kFEgEuPhmYiHwRQiLGIhuCSiwGIYqJiY6c5HS6Q+2B7FpugcYhR7LfrGeRihrsQBjHQ/I6cAbpRU1+fR/H1LIgFjdABGhDi4OCBF5PtQgIsH4dMA0yDEOkNAQGVoulNCOVvmnvmrDTsvjWwnI6mkua1ahm1UsCM3qzLfj4xHyGogcghcMDyOZtlcUb4CjRybWk+e+jWEObsPrNtE+67eCqbVeVlh5sYFYpwSbnlRUBRxjJk0p+SebqUAHMyk88RdxBLd8U8C8g6u97Hf8UQEAPp/bPeQ4eo+81cP8M6RCP3VPgWgd0TxcRg2SWHiDDgKG0SdgtmfWKFukI1b4RxTxMWtVBmnchUyZUiQLlS2REnXHZClbn2ksbLJlSdfgUJ9Fce9uFWVpKDNu3SFHQZvtGlThXEmkbVajhpZtx5mk5KRU1BSUQujEU5LJ0KkKNFixIoTT8/AeKr8ifaoVKUbDCdk2gfP17COVNyp+lTnDTdqD3v0v/82cK/WCGsNn4BhG/DfrcNpqNyn8OM/HwPvOhEGFPblvzN6NTP5N7Lj3qaB332z48gJf7wf3vHf5IhxlhcrVyyD5vH+/1s0vBdL8HHZp4lhl892jRb9DV+dw76FYGeBdgaqbcgsjZGa3a5hlX59wI6oaGsyHZjwJKFjrFtjqzN6iQ4GdgFaIoRVO0x7CN4/gLcbsLYPkmVB5ReotnQkUMZUgTpGRwAgZa6kzOAxQ2mrCzF0Hc1Vx9Jhqa4uTGqHrt2oehU2hxJ8DsKtgQhURBLWZ9FgAHtn0v8Brb9NegnWTiKwCYJdhIoaUElaCCffganzbLxVF4HPlI9mQ7uxnnluBtBtECAfmks5FtYFzp2E7mg174dBn7dQ7b3OU0uhQa8/kGP6VRmjZ6CXvBevAo6hyyOmnHpZaLW3YtExYCNnN3YWyVszYHGk4UGc0fIczllsPi5IfIlLOhdwYqPu+DWjg8GhQAHg5lNnLPqbg41Wu7Fz8o7hwIzxcGTa4tbMtnHO6eXhggnbhEv6HcGJ+9d9XM3cgc/+laabqXmVafE3f1j69a4cX/6sA7/ElmOhkVhaz/PSlGWgV90rZZcAamPrWvbQETRLbrZ3wXmTvGVilvxjdJZ6LfQy9p++JpvXIEsHfanzJRK8QKgSAyZLCmk4cWTApsYUiaSsT7KYR6qiZ5WQrjcJYbmUfxUxKQGpZ+jMQ9p1vo2WjM8RaOSMbh8LCk6v5DHTFOUK6spREiDQl+8P9QyGG9j+nJanYop73HI7i63E4r5kbQ7XEmul6y00WwLz5hLTG+UwhBkqDmTvYHg5f6tj1eqgh+ePgMYCt8tcOeKmFqZ5PF5VP7rplE+TB+yfMchUqWLG6qWrGNQTSpizaRyKKmjO0rdDMZrdAQ==) format('woff2');
+  font-display:swap;
+}
+/* ==============================================================
+   INFÓRMATE · mismo lenguaje visual del perfil
+   EDITAR: los datos viven en los arreglos JS al final del archivo
+   (EMERGENCIAS, CAMPANA, FICHAS). No hace falta tocar el HTML.
+   ============================================================== */
+:root{
+  --bg:#FFFFFF; --bg-soft:rgba(66,100,255,.06);
+  --ink:#14182B; --ink-soft:rgba(20,24,43,.64);
+  --line:rgba(20,24,43,.12);
+  --accent:#4264FF;
+  --naranja:#F7941D;
+  --naranja-deep:#DE7C05;
+  --lima:#CFF665;
+  --gris:#E6E7E9;
+  --grad:linear-gradient(90deg,#4264FF 0%,#CFF665 55%,#F7941D 100%); --accent-deep:#2B48D9;
+  --glass:rgba(255,255,255,.72); --glass-border:rgba(20,24,43,.1);
+  --card:#FFFFFF; --shadow:0 18px 50px rgba(66,100,255,.12);
+  --spec-a:rgba(66,100,255,.30); --spec-b:rgba(207,246,101,.45);
+  --display:'Chunko','Titan One',sans-serif; --body:'Montserrat',sans-serif;
+}
+html[data-theme="dark"]{
+  --bg:#0B1026; --bg-soft:rgba(207,246,101,.06);
+  --ink:#EFF2FF; --ink-soft:rgba(239,242,255,.66);
+  --line:rgba(239,242,255,.14);
+  --glass:rgba(13,19,46,.68); --glass-border:rgba(239,242,255,.12);
+  --card:#131A3A; --shadow:0 18px 50px rgba(0,0,0,.45);
+  --spec-a:rgba(66,100,255,.30); --spec-b:rgba(207,246,101,.16);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth;background:var(--bg);font-synthesis:none}
+body{font-family:var(--body);color:var(--ink);-webkit-font-smoothing:antialiased;overflow-x:hidden;transition:color .4s ease}
+a{color:inherit}
+::selection{background:var(--accent);color:#fff}
+.container{width:min(1100px,100% - 2.4rem);margin-inline:auto}
+
+/* ---------- Nav ---------- */
+.nav-shell{position:fixed;inset:0 0 auto 0;z-index:1000;display:flex;justify-content:center;gap:.6rem;padding:.8rem 1rem;pointer-events:none}
+.top-nav{pointer-events:auto;max-width:100%;overflow-x:auto;scrollbar-width:none;background:rgba(255,255,255,.55);backdrop-filter:blur(16px);border:1px solid var(--glass-border);border-radius:999px;box-shadow:var(--shadow)}
+.top-nav::-webkit-scrollbar{display:none}
+.nav-inner{display:flex;gap:.2rem;padding:.35rem .5rem;white-space:nowrap}
+.nav-inner a{text-decoration:none;font-size:.82rem;font-weight:600;color:var(--ink-soft);padding:.5rem .8rem;border-radius:999px;transition:all .2s}
+.nav-inner a:hover,.nav-inner a.on{color:var(--accent);background:var(--bg-soft)}
+.theme-toggle{pointer-events:auto;flex:0 0 auto;display:flex;align-items:center;gap:.5rem;background:var(--glass);backdrop-filter:blur(16px);border:1px solid var(--glass-border);border-radius:999px;padding:.5rem .9rem;cursor:pointer;font-family:var(--body);font-weight:600;font-size:.8rem;color:var(--ink);box-shadow:var(--shadow)}
+.toggle-dot{width:12px;height:12px;border-radius:50%;background:var(--accent);transition:transform .3s}
+html[data-theme="dark"] .toggle-dot{transform:scale(.7);box-shadow:0 0 10px var(--accent)}
+html[data-theme="dark"] .top-nav{background:rgba(11,16,38,.55)}
+
+/* ---------- Encabezado ---------- */
+.page-head{position:relative;overflow:hidden;padding:8rem 0 3rem}
+.aura{position:absolute;inset:0;pointer-events:none;filter:blur(60px)}
+.aura span{position:absolute;border-radius:50%;animation:flota 22s ease-in-out infinite alternate}
+@keyframes flota{from{transform:translate(0,0) scale(1)}to{transform:translate(6%,-8%) scale(1.15)}}
+.eyebrow{font-weight:600;font-size:.82rem;letter-spacing:.24em;text-transform:uppercase;color:var(--accent)}
+.page-head h1{font-family:var(--display);font-weight:800;font-size:clamp(2.4rem,7vw,4.4rem);letter-spacing:-.02em;margin:.4rem 0 .8rem}
+.page-head h1 em{font-style:normal;color:var(--accent)}
+.page-head p{max-width:60ch;color:var(--ink-soft);line-height:1.6;font-size:1.05rem}
+
+/* ---------- Secciones ---------- */
+.section{padding:clamp(2.6rem,7vw,4.5rem) 0}
+.section.tint{background:var(--bg-soft)}
+.section-header h2{font-family:var(--display);font-weight:800;letter-spacing:-.01em;font-size:clamp(1.8rem,5vw,2.8rem);margin:.3rem 0 .6rem}
+.section-header h2 em{font-style:normal;color:var(--accent)}
+.section-intro{max-width:62ch;color:var(--ink-soft);line-height:1.6;font-size:1rem}
+.animate-on-scroll{opacity:0;transform:translateY(26px);transition:opacity .7s ease,transform .7s ease}
+.animate-on-scroll.in{opacity:1;transform:none}
+
+/* ---------- Tarjetas ---------- */
+.info-grid{display:grid;gap:1rem;margin-top:2rem;grid-template-columns:repeat(auto-fit,minmax(250px,1fr))}
+.info-card{padding:1.5rem;border-radius:18px;background:var(--card);border:1px solid var(--glass-border);box-shadow:var(--shadow);display:flex;flex-direction:column;gap:.5rem;transition:transform .25s}
+.info-card:hover{transform:translateY(-4px)}
+.info-card .icono{font-size:1.6rem;line-height:1}
+.info-card h3{font-family:var(--display);font-weight:700;font-size:1.1rem}
+.info-card p{color:var(--ink-soft);font-size:.93rem;line-height:1.55;flex:1}
+.tel-grande{display:inline-flex;align-items:center;gap:.5rem;text-decoration:none;font-family:var(--display);font-weight:800;font-size:1.5rem;color:var(--accent)}
+.tel-grande:hover{color:var(--accent-deep)}
+.info-card .link{text-decoration:none;font-weight:700;color:var(--accent);font-size:.92rem}
+.info-card .link:hover{color:var(--accent-deep)}
+
+/* Emergencia destacada (911) */
+.info-card.urgente{background:linear-gradient(150deg,var(--naranja),var(--naranja-deep));color:#fff;border:none}
+.info-card.urgente p{color:rgba(255,255,255,.9)}
+.info-card.urgente .tel-grande{color:#fff;font-size:2.2rem}
+
+/* Becas */
+.beca{border-left:5px solid var(--naranja)}
+.beca .vigencia{display:inline-block;align-self:flex-start;font-size:.75rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#14182B;background:var(--lima);padding:.3rem .7rem;border-radius:999px}
+
+.nota{margin-top:1.4rem;font-size:.82rem;color:var(--ink-soft)}
+/* --- Buscador y fichas --- */
+.buscador{margin-top:1.6rem}
+.buscador input{width:100%;padding:.95rem 1.2rem;border-radius:99px;border:1.5px solid var(--line);
+  background:var(--card);color:var(--ink);font-family:var(--body);font-size:1rem;outline:none;transition:border .2s,box-shadow .2s}
+.buscador input:focus{border-color:var(--accent);box-shadow:0 0 0 4px rgba(66,100,255,.15)}
+.fichas-grid{grid-template-columns:repeat(auto-fit,minmax(290px,1fr))}
+.ficha p{flex:0}
+.ficha .items{flex:1;justify-content:flex-start}
+.ficha .items{display:flex;flex-direction:column;gap:.55rem;margin-top:.3rem}
+.ficha .item{display:flex;flex-direction:column;gap:.1rem;padding:.6rem .8rem;border-radius:12px;background:var(--bg-soft)}
+.ficha .item b{font-size:.92rem}
+.ficha .item a{color:var(--accent);font-weight:700;text-decoration:none;font-size:.9rem}
+.ficha .item .mini{font-size:.8rem;color:var(--ink-soft)}
+.ficha-campana{grid-column:1/-1;border:none;background:linear-gradient(150deg,var(--naranja),var(--naranja-deep));color:#fff}
+.ficha-campana .badge-mes{align-self:flex-start;background:var(--lima);color:#14182B;font-weight:800;font-size:.75rem;
+  letter-spacing:.1em;text-transform:uppercase;padding:.25rem .7rem;border-radius:99px}
+.ficha-campana p{color:rgba(255,255,255,.92)}
+.ficha-campana a{color:#fff;font-weight:800;text-decoration:underline}
+.sin-resultados{grid-column:1/-1;text-align:center;color:var(--ink-soft);padding:2rem 0}
+/* --- Súmate --- */
+.sumate-card{margin-top:2rem;padding:clamp(1.4rem,4vw,2.2rem);border-radius:22px;background:var(--card);
+  border:1px solid var(--glass-border);box-shadow:var(--shadow)}
+.lbl-chips{font-weight:700;margin-bottom:.7rem}
+.chips{display:flex;flex-wrap:wrap;gap:.6rem;margin-bottom:1.4rem}
+.chip input{position:absolute;opacity:0;pointer-events:none}
+.chip span{display:inline-block;padding:.6rem 1.1rem;border-radius:99px;border:1.5px solid var(--line);
+  background:var(--bg);font-weight:600;font-size:.92rem;cursor:pointer;transition:all .2s;user-select:none}
+.chip input:checked + span{background:var(--lima);border-color:var(--lima);color:#14182B;box-shadow:0 8px 20px rgba(207,246,101,.55)}
+.form-grid{display:grid;gap:1rem}
+@media(min-width:760px){.form-grid{grid-template-columns:1fr 1fr}.form-grid .full{grid-column:1/-1}}
+.form-grid label{display:block;font-weight:700;font-size:.86rem;margin-bottom:.35rem}
+.form-grid input,.form-grid textarea{width:100%;padding:.8rem 1rem;border-radius:14px;border:1.5px solid var(--line);
+  background:var(--bg);color:var(--ink);font-family:var(--body);font-size:.98rem;outline:none;transition:border .2s,box-shadow .2s}
+.form-grid textarea{min-height:96px;resize:vertical}
+.form-grid input:focus,.form-grid textarea:focus{border-color:var(--accent);box-shadow:0 0 0 4px rgba(66,100,255,.15)}
+.canales{display:flex;flex-wrap:wrap;gap:.9rem;align-items:center;margin-top:1.3rem}
+.btn{display:inline-flex;align-items:center;gap:.5rem;padding:.85rem 1.5rem;border-radius:99px;border:1.5px solid transparent;
+  font-family:var(--body);font-weight:700;font-size:.98rem;cursor:pointer;text-decoration:none;transition:transform .2s,box-shadow .2s,background .2s}
+.btn.primary{background:var(--naranja);color:#fff;box-shadow:0 10px 26px rgba(247,148,29,.4)}
+.btn.primary:hover{transform:translateY(-2px);background:var(--naranja-deep)}
+.estado{font-size:.9rem;font-weight:600;color:var(--ink-soft)}
+.estado.ok{color:#1B7F4B}
+.estado.err{color:#D9480F}
+footer{border-top:3px solid transparent;border-image:var(--grad) 1;padding:1.8rem 0;font-size:.85rem;color:var(--ink-soft)}
+.foot-in{display:flex;flex-wrap:wrap;gap:1rem;justify-content:space-between;align-items:center}
+.foot-in a{font-weight:600;text-decoration:none}
+.foot-in a:hover{color:var(--accent)}
+
+@media(prefers-reduced-motion:reduce){.animate-on-scroll{opacity:1;transform:none}*{animation-duration:.01ms!important;transition-duration:.01ms!important}}
+@media(max-width:640px){
+  .container{width:min(1100px,100% - 1.8rem)}
+  .nav-shell{padding:.6rem .6rem;gap:.4rem}
+  .nav-inner a{font-size:.78rem;padding:.45rem .65rem}
+  .theme-toggle{padding:.45rem .7rem;font-size:.75rem}
+  .page-head{padding-top:6.4rem}
+}
+</style>
+</head>
+<body>
+
+<div class="nav-shell">
+  <nav class="top-nav">
+    <div class="nav-inner">
+      <a href="index.html">Inicio</a>
+      <a href="conoceme.html">Conóceme</a>
+      <a href="informate.html" class="on">Infórmate</a>
+      <a href="peticiones.html">Peticiones</a>
+      <a href="#emergencias">Emergencias</a>
+      <a href="#fichas">Fichas</a>
+      <a href="#sumate">Súmate</a>
+    </div>
+  </nav>
+  <button id="themeToggle" class="theme-toggle" type="button" aria-pressed="false">
+    <span class="toggle-dot" aria-hidden="true"></span>
+    <span id="themeToggleLabel">Claro</span>
+  </button>
+</div>
+
+<header class="page-head">
+  <div class="aura" aria-hidden="true">
+    <span style="width:460px;height:460px;left:-8%;top:-10%;background:var(--spec-a)"></span>
+    <span style="width:340px;height:340px;right:-6%;top:30%;background:var(--spec-b);animation-delay:-9s"></span>
+  </div>
+  <div class="container">
+    <p class="eyebrow">Infórmate</p>
+    <h1>Información que <em>te sirve</em></h1>
+    <p>Teléfonos de emergencia y fichas con la información más buscada: dónde hacer
+       tus trámites, dónde pedir orientación y a quién acudir. Guarda esta página:
+       está pensada para resolverte en un solo lugar.</p>
+  </div>
+</header>
+
+<main>
+
+<!-- ============ EMERGENCIAS ============ -->
+<section id="emergencias" class="section">
+  <div class="container">
+    <div class="section-header animate-on-scroll">
+      <h2>Contactos de <em>emergencia</em></h2>
+      <p class="section-intro">Toca cualquier número para llamar directamente desde tu celular.</p>
+    </div>
+    <div class="info-grid" id="gridEmergencias"></div>
+  </div>
+</section>
+
+<!-- ============ FICHAS DE INFORMACIÓN ============ -->
+<section id="fichas" class="section tint">
+  <div class="container">
+    <div class="section-header animate-on-scroll">
+      <h2>Fichas de <em>información</em></h2>
+      <p class="section-intro">Los temas más buscados, en tarjetas directas: qué institución te atiende y por dónde empezar.
+        ¿Prefieres reportar algo de tu colonia? <a href="peticiones.html" style="color:var(--accent);font-weight:700">Levanta una petición aquí</a>.</p>
+    </div>
+    <div class="buscador animate-on-scroll">
+      <input id="filtroFichas" type="search" placeholder="🔎 ¿Qué necesitas? Escribe: becas, salud, animales, emprender…" aria-label="Buscar en las fichas">
+    </div>
+    <div class="info-grid fichas-grid" id="gridFichas"></div>
+    <p class="nota">* Información orientativa como servicio a la comunidad. Cada trámite, programa o convocatoria
+       depende de la institución responsable: verifica requisitos, vigencias y horarios en sus canales oficiales.
+       Este espacio no ofrece asesoría legal ni gestiona trámites a nombre de terceros.</p>
+  </div>
+</section>
+
+<!-- ============ SÚMATE ============ -->
+<section id="sumate" class="section">
+  <div class="container">
+    <div class="section-header animate-on-scroll">
+      <h2>Súmate a <em>la comunidad</em></h2>
+      <p class="section-intro">¿Quieres participar? Elige cómo te gustaría sumarte, déjanos tus datos y nosotros te contactamos.</p>
+    </div>
+    <form class="sumate-card animate-on-scroll" id="formSumate">
+      <p class="lbl-chips">Me interesa:</p>
+      <div class="chips" id="chipsSumate">
+        <label class="chip"><input type="checkbox" name="interes" value="Círculos ciudadanos"><span>🫱🏽‍🫲🏽 Círculos ciudadanos</span></label>
+        <label class="chip"><input type="checkbox" name="interes" value="Causas"><span>💛 Causas</span></label>
+        <label class="chip"><input type="checkbox" name="interes" value="Voluntariado"><span>🙌 Voluntariado</span></label>
+        <label class="chip"><input type="checkbox" name="interes" value="Partido"><span>🗳️ Partido</span></label>
+      </div>
+      <div class="form-grid">
+        <div><label for="suNombre">Nombre *</label><input id="suNombre" name="nombre" placeholder="Tu nombre completo" required></div>
+        <div><label for="suTel">Teléfono *</label><input id="suTel" name="telefono" type="tel" placeholder="81 0000 0000" required></div>
+        <div><label for="suCorreo">Correo (opcional)</label><input id="suCorreo" name="correo" type="email" placeholder="tucorreo@ejemplo.com"></div>
+        <div><label for="suColonia">Colonia (opcional)</label><input id="suColonia" name="colonia" placeholder="Tu colonia"></div>
+        <div class="full"><label for="suMsj">¿Algo que quieras contarnos? (opcional)</label><textarea id="suMsj" name="mensaje" placeholder="Cuéntanos brevemente…"></textarea></div>
+      </div>
+      <div class="canales">
+        <button class="btn primary" type="submit">Quiero sumarme</button>
+        <span class="estado" id="estadoSumate" role="status"></span>
+      </div>
+      <p class="nota" style="margin-top:.9rem">Tus datos solo se usan para contactarte sobre tu interés. No se publican ni se comparten. Consulta nuestro <a href="aviso-privacidad.html" style="color:var(--accent);font-weight:700">Aviso de privacidad</a>.</p>
+    </form>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <div class="container foot-in">
+    <span>© <span id="anio"></span> Martha Herrera · <a href="aviso-privacidad.html" style="color:var(--accent);font-weight:700;text-decoration:none">Aviso de privacidad</a></span>
+    <a href="peticiones.html">¿Algo te duele en tu colonia? Repórtalo aquí →</a>
+  </div>
+</footer>
+
+<script>
+/* ==============================================================
+   EDITAR AQUÍ: datos de cada sección.
+   Agrega, quita o modifica objetos; la página se dibuja sola.
+   ============================================================== */
+
+const EMERGENCIAS = [
+  {icono:"🚨", titulo:"Emergencias", desc:"Policía, ambulancia y bomberos. Disponible 24/7 en todo el país.", tel:"911", urgente:true},
+  {icono:"🕵️", titulo:"Denuncia anónima", desc:"Reporta delitos sin dar tu nombre.", tel:"089"},
+  {icono:"⛑️", titulo:"Cruz Roja", desc:"Atención médica de urgencia y traslados.", tel:"065"},
+  {icono:"🧯", titulo:"Protección Civil NL", desc:"Riesgos, incendios, contingencias climáticas.", tel:"8181302200"},
+  {icono:"💬", titulo:"Línea de la Vida", desc:"Apoyo emocional y prevención de adicciones, 24/7.", tel:"8009112000"},
+  {icono:"👩‍👧", titulo:"Línea Mujeres", desc:"Orientación y apoyo ante violencia de género.", tel:"075"}
+];
+
+/* -------- Utilidades y render de emergencias -------- */
+function telBonito(t){
+  const s = String(t);
+  if(s.length===3) return s;
+  if(s.length===10) return `${s.slice(0,2)} ${s.slice(2,6)} ${s.slice(6)}`;
+  return s;
+}
+function cardEmergencia(e){
+  const cls = e.urgente ? "info-card urgente" : "info-card";
+  return `<article class="${cls} animate-on-scroll">
+    <span class="icono" aria-hidden="true">${e.icono}</span>
+    <h3>${e.titulo}</h3><p>${e.desc}</p>
+    <a class="tel-grande" href="tel:${e.tel}">📞 ${telBonito(e.tel)}</a></article>`;
+}
+document.getElementById('gridEmergencias').innerHTML = EMERGENCIAS.map(cardEmergencia).join("");
+
+/* -------- CAMPAÑA DEL MES — EDITAR cada mes -------- */
+const CAMPANA = {
+  titulo: "EDITAR: Campaña del mes",
+  desc: "Describe aquí la campaña vigente: jornadas de descacharrización, colecta de útiles, brigada de salud, reforestación… Cambia este texto cada mes.",
+  url: "",            // enlace con más información (opcional)
+  urlTexto: "Más información ↗"
+};
+
+/* -------- FICHAS DE INFORMACIÓN — EDITAR libremente --------
+   Cada ficha: icono, titulo, desc y lista de items.
+   Cada item: n (nombre), tel (opcional), url (opcional), mini (nota corta).
+   Donde dice EDITAR, coloca el dato oficial del municipio/estado.  */
+const FICHAS = [
+  {icono:"⚖️", titulo:"Asesoría legal gratuita", claves:"abogado juicio demanda pension divorcio",
+   desc:"Orientación jurídica sin costo en instituciones públicas.",
+   items:[
+     {n:"Instituto de Defensoría Pública de NL", mini:"Defensa penal, familiar y civil sin costo", tel:"", url:"", nota:"EDITAR: teléfono y módulo más cercano"},
+     {n:"Bufetes jurídicos universitarios", mini:"Asesoría gratuita supervisada (p. ej. facultades de derecho)", nota:"EDITAR: sede y horarios"}
+   ],
+   pie:"Aquí te orientamos hacia las instituciones; este sitio no brinda asesoría legal."},
+
+  {icono:"🐾", titulo:"Bienestar y protección animal", claves:"mascotas perros gatos maltrato esterilizacion",
+   desc:"Reporta maltrato y encuentra servicios para tus animales de compañía.",
+   items:[
+     {n:"Denuncia de maltrato animal", tel:"089", mini:"Denuncia anónima las 24 horas"},
+     {n:"Bienestar Animal municipal", mini:"Esterilizaciones, adopciones y reportes", nota:"EDITAR: teléfono municipal"}
+   ]},
+
+  {icono:"🤝", titulo:"Discriminación y derechos humanos", claves:"derechos queja discriminacion abuso autoridad",
+   desc:"Si sufriste discriminación o un abuso de autoridad, no estás sola/o.",
+   items:[
+     {n:"Comisión Estatal de Derechos Humanos NL", url:"https://www.cedhnl.org.mx", mini:"Quejas contra autoridades estatales o municipales"},
+     {n:"CONAPRED", url:"https://www.conapred.org.mx", mini:"Quejas por discriminación"}
+   ]},
+
+  {icono:"🏠", titulo:"Trámites de tu hogar y colonia", claves:"agua luz predial basura bache lampara drenaje",
+   desc:"Los servicios de todos los días y dónde reportarlos.",
+   items:[
+     {n:"Agua y Drenaje de Monterrey", tel:"073", url:"https://www.ayd.gob.mx", mini:"Fugas, falta de agua, drenaje"},
+     {n:"CFE", tel:"071", url:"https://www.cfe.mx", mini:"Apagones y cables caídos"},
+     {n:"Alumbrado, baches y recolección", mini:"Reportes al municipio", nota:"EDITAR: línea municipal de atención"},
+     {n:"¿Prefieres que le demos seguimiento?", url:"peticiones.html", urlTexto:"Levanta una petición georreferenciada →", mini:""}
+   ]},
+
+  {icono:"🎗️", titulo:"Programas sociales gratuitos", claves:"apoyo despensa adulto mayor dif",
+   desc:"Programas estatales y municipales sin costo.",
+   items:[
+     {n:"DIF (estatal y municipal)", mini:"Apoyo alimentario, atención a infancias, adultos mayores y grupos vulnerables", nota:"EDITAR: teléfono del DIF más cercano"},
+     {n:"Programas del Gobierno de Nuevo León", url:"https://www.nl.gob.mx", mini:"Consulta la oferta vigente en el portal oficial"}
+   ]},
+
+  {icono:"🎓", titulo:"Becas", claves:"beca estudio escuela universidad",
+   desc:"Convocatorias estatales y municipales para estudiantes.",
+   items:[
+     {n:"Becas Nuevo León", url:"https://www.nl.gob.mx/becas", mini:"Media superior y superior"},
+     {n:"Becas municipales", mini:"Apoyos locales para estudiantes", nota:"EDITAR: convocatoria municipal vigente"}
+   ]},
+
+  {icono:"🏥", titulo:"Servicios de salud", claves:"doctor medicina consulta vacuna salud mental",
+   desc:"Atención médica pública y líneas de apoyo.",
+   items:[
+     {n:"Centros de salud comunitarios", mini:"Consulta general y vacunación (Secretaría de Salud NL)", nota:"EDITAR: centro de salud más cercano"},
+     {n:"Línea de la Vida", tel:"8009112000", mini:"Apoyo emocional y en adicciones, 24/7"},
+     {n:"Brigadas de salud en tu colonia", mini:"Jornadas gratuitas itinerantes", nota:"EDITAR: calendario de brigadas"}
+   ]},
+
+  {icono:"🚀", titulo:"Emprendimiento", claves:"negocio emprender curso capacitacion credito",
+   desc:"Para arrancar o hacer crecer tu negocio.",
+   items:[
+     {n:"Ventanilla de emprendimiento municipal", mini:"Permisos, orientación y vinculación", nota:"EDITAR: dirección y teléfono"},
+     {n:"Capacitación gratuita", mini:"Cursos y talleres para emprendedores", nota:"EDITAR: instituciones y fechas"}
+   ]},
+
+  {icono:"🌳", titulo:"Medio ambiente", claves:"arbol reciclaje contaminacion quema tala parque",
+   desc:"Cuidemos juntos nuestro entorno.",
+   items:[
+     {n:"Denuncias ambientales", mini:"Quema, tala o contaminación", nota:"EDITAR: teléfono de la autoridad ambiental"},
+     {n:"Protección Civil NL", tel:"8181302200", mini:"Árboles caídos y riesgos"},
+     {n:"Centros de acopio y reciclaje", mini:"Dónde llevar tus residuos separados", nota:"EDITAR: puntos de acopio"}
+   ]},
+
+  {icono:"❤️", titulo:"Ayuda humanitaria", claves:"despensa comida albergue donacion apoyo emergencia",
+   desc:"Para quien necesita apoyo — y para quien quiere darlo.",
+   items:[
+     {n:"DIF y albergues", mini:"Atención a personas en situación vulnerable", nota:"EDITAR: contactos locales"},
+     {n:"Bancos de alimentos y colectas", mini:"Recibe o dona alimentos", nota:"EDITAR: banco de alimentos más cercano"},
+     {n:"¿Quieres ayudar?", url:"#sumate", urlTexto:"Súmate como voluntaria/o →"}
+   ]}
+];
+
+/* -------- Render de fichas -------- */
+function cardFicha(f){
+  const items = f.items.map(it=>{
+    const tel  = it.tel ? `<a href="tel:${it.tel}">📞 ${telBonito(it.tel)}</a>` : "";
+    const link = it.url ? `<a href="${it.url}"${it.url.startsWith('http')?' target="_blank" rel="noopener"':''}>${it.urlTexto||'Sitio oficial ↗'}</a>` : "";
+    const mini = it.mini ? `<span class="mini">${it.mini}</span>` : "";
+    const nota = it.nota ? `<span class="mini">✏️ ${it.nota}</span>` : "";
+    return `<div class="item"><b>${it.n}</b>${mini}${tel}${link}${nota}</div>`;
+  }).join("");
+  const pie = f.pie ? `<span class="mini" style="font-size:.78rem;color:var(--ink-soft)">${f.pie}</span>` : "";
+  return `<article class="info-card ficha animate-on-scroll" data-texto="${(f.titulo+' '+f.desc+' '+(f.claves||'')).toLowerCase()}">
+    <span class="icono" aria-hidden="true">${f.icono}</span><h3>${f.titulo}</h3><p>${f.desc}</p>
+    <div class="items">${items}</div>${pie}</article>`;
+}
+function cardCampana(c){
+  const link = c.url ? `<a href="${c.url}" target="_blank" rel="noopener">${c.urlTexto||'Más información ↗'}</a>` : "";
+  return `<article class="info-card ficha ficha-campana animate-on-scroll" data-texto="campaña del mes ${(c.titulo+' '+c.desc).toLowerCase()}">
+    <span class="badge-mes">📣 Campaña del mes</span><h3>${c.titulo}</h3><p>${c.desc}</p>${link}</article>`;
+}
+function pintarFichas(filtro=""){
+  const q = filtro.trim().toLowerCase();
+  const todas = [cardCampana(CAMPANA), ...FICHAS.map(cardFicha)];
+  const grid = document.getElementById('gridFichas');
+  if(!q){ grid.innerHTML = todas.join(""); }
+  else{
+    const tmp = document.createElement('div');
+    tmp.innerHTML = todas.join("");
+    const visibles = [...tmp.children].filter(el=>el.dataset.texto.includes(q));
+    grid.innerHTML = visibles.length ? visibles.map(el=>el.outerHTML).join("")
+      : `<div class="sin-resultados">No encontramos "${filtro}". Intenta con otra palabra o <a href="peticiones.html" style="color:var(--accent);font-weight:700">cuéntanos qué necesitas</a>.</div>`;
+  }
+  grid.querySelectorAll('.animate-on-scroll').forEach(el=>el.classList.add('in'));
+}
+pintarFichas();
+document.getElementById('filtroFichas').addEventListener('input',e=>pintarFichas(e.target.value));
+
+/* -------- Formulario Súmate -------- */
+const SUMATE = {
+  whatsapp: "528115285910",   // a dónde llegan los registros si no hay hoja conectada
+  sheetsURL: ""               // OPCIONAL: URL /exec de Apps Script para guardar en Google Sheets (ver INSTRUCCIONES-SHEETS.md)
+};
+document.getElementById('formSumate').addEventListener('submit', async ev=>{
+  ev.preventDefault();
+  const f = ev.target;
+  const estado = document.getElementById('estadoSumate');
+  const intereses = [...f.querySelectorAll('input[name="interes"]:checked')].map(i=>i.value);
+  if(!intereses.length){ estado.textContent='Elige al menos una opción para sumarte.'; estado.className='estado err'; return; }
+  const datos = {
+    fecha: new Date().toLocaleString('es-MX'),
+    interes: intereses.join(", "),
+    nombre: f.nombre.value.trim(),
+    telefono: f.telefono.value.trim(),
+    correo: f.correo.value.trim(),
+    colonia: f.colonia.value.trim(),
+    mensaje: f.mensaje.value.trim()
+  };
+  if(SUMATE.https://script.google.com/macros/s/AKfycbwNUK50NT7ekLfFzSXGMbfJPwfPNDajGWx7WuYYtQbboYCYylIMLG5vDjLJeffXVr5G/exec,{method:'POST',mode:'no-cors',body:new URLSearchParams(datos)})){
+    estado.textContent='Enviando…'; estado.className='estado';
+    try{
+      await fetch(SUMATE.sheetsURL,{method:'POST',mode:'no-cors',body:new URLSearchParams(datos)});
+      estado.textContent='¡Gracias por sumarte! Te contactaremos pronto. 💛'; estado.className='estado ok';
+      f.reset(); return;
+    }catch(_){ /* respaldo WhatsApp */ }
+  }
+  const msj = `Hola, quiero SUMARME 🙋\nInterés: ${datos.interes}\nNombre: ${datos.nombre}\nTeléfono: ${datos.telefono}`+
+    (datos.correo?`\nCorreo: ${datos.correo}`:"")+(datos.colonia?`\nColonia: ${datos.colonia}`:"")+
+    (datos.mensaje?`\nMensaje: ${datos.mensaje}`:"");
+  window.open(`https://wa.me/${SUMATE.whatsapp}?text=${encodeURIComponent(msj)}`,'_blank');
+  estado.textContent='Se abrió WhatsApp con tus datos: solo presiona enviar. ✔️'; estado.className='estado ok';
+});
+
+
+/* ===== Toggle de tema ===== */
+const root=document.documentElement,tgl=document.getElementById('themeToggle'),lbl=document.getElementById('themeToggleLabel');
+function setTheme(t){root.dataset.theme=t;lbl.textContent=t==='dark'?'Oscuro':'Claro';tgl.setAttribute('aria-pressed',t==='dark');try{localStorage.setItem('mh-theme',t)}catch(_){}}
+tgl.addEventListener('click',()=>setTheme(root.dataset.theme==='dark'?'light':'dark'));
+try{const s=localStorage.getItem('mh-theme');if(s)setTheme(s);}catch(_){}
+
+/* ===== Reveal on scroll ===== */
+const io=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}});},{threshold:.12});
+document.querySelectorAll('.animate-on-scroll').forEach(el=>io.observe(el));
+document.getElementById('anio').textContent=new Date().getFullYear();
+</script>
+</body>
+</html>

@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+<html lang="es" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#4264FF">
+<meta name="description" content="Levanta una petición georreferenciada: servicios públicos, limpieza de espacios y seguridad.">
+<title>Peticiones · Martha Herrera</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Titan+One&family=Montserrat:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+<link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.css">
+<link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.Default.css">
+<style>
+/* ==============================================================
+   IDENTIDAD OFICIAL (Manual de Marca Martha Herrera)
+   Colores RGB: Azul Eléctrico #4264FF · Naranja MC #F7941D
+                Verde Lima #CFF665 · Blanco Grisáceo #E6E7E9
+   Tipografía: Chunko Bold (títulos) + Montserrat (textos).
+   Chunko Bold (demo) incrustada en el archivo — funciona sin
+   conexión y sin archivos externos. NOTA: la versión demo NO
+   incluye acentos (á é í ó ú), ñ ni signos ¿ ¡ — esos caracteres
+   se dibujan con Titan One (sustituto visual, como prevé el
+   manual). Al adquirir la versión completa de Chunko, reemplaza
+   el base64 de abajo y los títulos quedarán 100% en la oficial.
+   ============================================================== */
+@font-face{
+  font-family:'Chunko';
+  src:url(data:font/woff2;base64,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) format('woff2');
+  font-display:swap;
+}
+/* ==============================================================
+   PETICIONES · "¿Qué te duele?"
+   Formulario georreferenciado (Leaflet) que guarda cada registro
+   en una hoja de Google Sheets vía Apps Script.
+   → Configura CONFIG.sheetsURL (ver INSTRUCCIONES-SHEETS.md).
+   ============================================================== */
+:root{
+  --bg:#FFFFFF; --bg-soft:rgba(66,100,255,.06);
+  --ink:#14182B; --ink-soft:rgba(20,24,43,.64);
+  --line:rgba(20,24,43,.12);
+  --accent:#4264FF;
+  --naranja:#F7941D;
+  --naranja-deep:#DE7C05;
+  --lima:#CFF665;
+  --gris:#E6E7E9;
+  --grad:linear-gradient(90deg,#4264FF 0%,#CFF665 55%,#F7941D 100%); --accent-deep:#2B48D9;
+  --glass:rgba(255,255,255,.72); --glass-border:rgba(20,24,43,.1);
+  --card:#FFFFFF; --shadow:0 18px 50px rgba(66,100,255,.12);
+  --spec-a:rgba(66,100,255,.30); --spec-b:rgba(207,246,101,.45);
+  --display:'Chunko','Titan One',sans-serif; --body:'Montserrat',sans-serif;
+}
+html[data-theme="dark"]{
+  --bg:#0B1026; --bg-soft:rgba(207,246,101,.06);
+  --ink:#EFF2FF; --ink-soft:rgba(239,242,255,.66);
+  --line:rgba(239,242,255,.14);
+  --glass:rgba(13,19,46,.68); --glass-border:rgba(239,242,255,.12);
+  --card:#131A3A; --shadow:0 18px 50px rgba(0,0,0,.45);
+  --spec-a:rgba(66,100,255,.30); --spec-b:rgba(207,246,101,.16);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth;background:var(--bg);font-synthesis:none}
+body{font-family:var(--body);color:var(--ink);-webkit-font-smoothing:antialiased;overflow-x:hidden;transition:color .4s ease}
+a{color:inherit}
+::selection{background:var(--accent);color:#fff}
+.container{width:min(1100px,100% - 2.4rem);margin-inline:auto}
+
+/* ---------- Nav ---------- */
+.nav-shell{position:fixed;inset:0 0 auto 0;z-index:1100;display:flex;justify-content:center;gap:.6rem;padding:.8rem 1rem;pointer-events:none}
+.top-nav{pointer-events:auto;max-width:100%;overflow-x:auto;scrollbar-width:none;background:rgba(255,255,255,.55);backdrop-filter:blur(16px);border:1px solid var(--glass-border);border-radius:999px;box-shadow:var(--shadow)}
+.top-nav::-webkit-scrollbar{display:none}
+.nav-inner{display:flex;gap:.2rem;padding:.35rem .5rem;white-space:nowrap}
+.nav-inner a{text-decoration:none;font-size:.82rem;font-weight:600;color:var(--ink-soft);padding:.5rem .8rem;border-radius:999px;transition:all .2s}
+.nav-inner a:hover,.nav-inner a.on{color:var(--accent);background:var(--bg-soft)}
+.theme-toggle{pointer-events:auto;flex:0 0 auto;display:flex;align-items:center;gap:.5rem;background:var(--glass);backdrop-filter:blur(16px);border:1px solid var(--glass-border);border-radius:999px;padding:.5rem .9rem;cursor:pointer;font-family:var(--body);font-weight:600;font-size:.8rem;color:var(--ink);box-shadow:var(--shadow)}
+.toggle-dot{width:12px;height:12px;border-radius:50%;background:var(--accent);transition:transform .3s}
+html[data-theme="dark"] .toggle-dot{transform:scale(.7);box-shadow:0 0 10px var(--accent)}
+html[data-theme="dark"] .top-nav{background:rgba(11,16,38,.55)}
+
+/* ---------- Encabezado ---------- */
+.page-head{position:relative;overflow:hidden;padding:8rem 0 2.6rem}
+.aura{position:absolute;inset:0;pointer-events:none;filter:blur(60px)}
+.aura span{position:absolute;border-radius:50%;animation:flota 22s ease-in-out infinite alternate}
+@keyframes flota{from{transform:translate(0,0) scale(1)}to{transform:translate(6%,-8%) scale(1.15)}}
+.eyebrow{font-weight:600;font-size:.82rem;letter-spacing:.24em;text-transform:uppercase;color:var(--accent)}
+.page-head h1{font-family:var(--display);font-weight:800;font-size:clamp(2.4rem,7vw,4.4rem);letter-spacing:-.02em;margin:.4rem 0 .8rem}
+.page-head h1 em{font-style:normal;color:var(--accent)}
+.page-head p{max-width:60ch;color:var(--ink-soft);line-height:1.6;font-size:1.05rem}
+
+/* ---------- Pasos ---------- */
+.pasos{display:flex;flex-wrap:wrap;gap:.8rem;margin:1.6rem 0 0}
+.paso{display:flex;align-items:center;gap:.5rem;font-size:.88rem;font-weight:600;color:var(--ink-soft)}
+.paso b{display:grid;place-items:center;width:26px;height:26px;border-radius:50%;background:var(--naranja);color:#fff;font-family:var(--display);font-size:.8rem}
+
+/* ---------- Formulario + mapa ---------- */
+.section{padding:clamp(1.6rem,4vw,3rem) 0 4rem}
+.pet-grid{display:grid;gap:1.4rem}
+@media(min-width:960px){.pet-grid{grid-template-columns:1.05fr .95fr;align-items:start}}
+.panel{background:var(--card);border:1px solid var(--glass-border);border-radius:20px;box-shadow:var(--shadow);padding:clamp(1.3rem,3.5vw,2rem)}
+.panel h2{font-family:var(--display);font-weight:800;font-size:1.35rem;margin-bottom:.4rem}
+.panel h2 em{font-style:normal;color:var(--accent)}
+.panel .hint{color:var(--ink-soft);font-size:.9rem;line-height:1.5;margin-bottom:1.1rem}
+
+#mapa{height:min(52svh,440px);border-radius:16px;border:1px solid var(--glass-border);z-index:1}
+.pin-naranja{width:15px;height:15px;background:var(--naranja);border:3px solid #fff;border-radius:50%;box-shadow:0 2px 8px rgba(0,0,0,.35)}
+.leaflet-popup-content{font-family:var(--body)}
+#mapaReportes{height:56svh;border-radius:18px;border:1.5px solid var(--line);overflow:hidden;background:var(--gris)}
+.leyenda{display:flex;flex-wrap:wrap;gap:.5rem .9rem;margin:.4rem 0 1rem}
+.leyenda span{display:inline-flex;align-items:center;gap:.4rem;font-size:.85rem;color:var(--ink-soft)}
+.leyenda i{width:12px;height:12px;border-radius:50%;display:inline-block;border:2px solid #fff;box-shadow:0 1px 4px rgba(20,24,43,.25)}
+.badge-colonia{display:inline-block;margin-left:.5rem;padding:.1rem .55rem;border-radius:99px;background:var(--lima);color:#14182B;font-weight:700;font-size:.8rem}
+.reportes-panel{margin-top:2.2rem}
+.map-tools{display:flex;flex-wrap:wrap;gap:.6rem;margin-top:.9rem;align-items:center}
+.coords{font-size:.82rem;color:var(--ink-soft);font-variant-numeric:tabular-nums}
+.coords b{color:var(--accent)}
+
+/* Categorías tipo chips */
+.chips{display:flex;flex-wrap:wrap;gap:.55rem;margin:.2rem 0 1.1rem}
+.chip{cursor:pointer}
+.chip input{position:absolute;opacity:0;pointer-events:none}
+.chip span{display:inline-flex;align-items:center;gap:.4rem;padding:.55rem 1rem;border-radius:999px;border:1.5px solid var(--line);font-weight:600;font-size:.88rem;transition:all .2s;background:var(--bg)}
+.chip input:checked + span{background:var(--lima);border-color:var(--lima);color:#14182B;box-shadow:0 8px 20px rgba(207,246,101,.55)}
+.chip input:focus-visible + span{outline:2px solid var(--accent);outline-offset:2px}
+
+label{font-size:.78rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;display:block;margin-bottom:.4rem;color:var(--ink-soft)}
+input[type=text],input[type=tel],select,textarea{width:100%;padding:.85rem 1rem;border-radius:12px;border:1.5px solid var(--line);background:var(--bg);color:var(--ink);font-family:var(--body);font-size:1rem}
+input:focus,select:focus,textarea:focus{outline:none;border-color:var(--accent)}
+textarea{min-height:120px;resize:vertical}
+.form-grid{display:grid;gap:1rem}
+@media(min-width:640px){.form-grid{grid-template-columns:1fr 1fr}.form-grid .full{grid-column:1/-1}}
+
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:.5rem;padding:.85rem 1.6rem;border-radius:999px;text-decoration:none;font-weight:600;font-size:.95rem;font-family:var(--body);cursor:pointer;border:1.5px solid transparent;transition:transform .2s,box-shadow .2s}
+.btn:active{transform:scale(.96)}
+.btn.primary{background:var(--naranja);color:#fff;box-shadow:0 10px 26px rgba(247,148,29,.4)}
+.btn.primary:hover{transform:translateY(-2px);background:var(--naranja-deep)}
+.btn.primary:disabled{opacity:.6;cursor:wait;transform:none}
+.btn.ghost{border-color:var(--line);color:var(--ink);background:transparent}
+.btn.ghost:hover{border-color:var(--accent);color:var(--accent)}
+.privacy{margin-top:1rem;font-size:.8rem;color:var(--ink-soft)}
+
+/* Estado del envío */
+.estado{display:none;margin-top:1.1rem;padding:1rem 1.2rem;border-radius:14px;font-weight:600;line-height:1.5}
+.estado.ok{display:block;background:rgba(30,160,80,.12);color:#1c7a43;border:1.5px solid rgba(30,160,80,.35)}
+html[data-theme="dark"] .estado.ok{color:#7ee2a8}
+.estado.err{display:block;background:rgba(217,72,0,.1);color:#D9480F;border:1.5px solid rgba(217,72,0,.35)}
+.estado small{display:block;font-weight:400;margin-top:.3rem;color:var(--ink-soft)}
+
+footer{border-top:3px solid transparent;border-image:var(--grad) 1;padding:1.8rem 0;font-size:.85rem;color:var(--ink-soft)}
+.foot-in{display:flex;flex-wrap:wrap;gap:1rem;justify-content:space-between;align-items:center}
+.foot-in a{font-weight:600;text-decoration:none}
+.foot-in a:hover{color:var(--accent)}
+
+@media(prefers-reduced-motion:reduce){*{animation-duration:.01ms!important;transition-duration:.01ms!important}}
+@media(max-width:640px){
+  .container{width:min(1100px,100% - 1.8rem)}
+  .nav-shell{padding:.6rem .6rem;gap:.4rem}
+  .nav-inner a{font-size:.78rem;padding:.45rem .65rem}
+  .theme-toggle{padding:.45rem .7rem;font-size:.75rem}
+  .page-head{padding-top:6.4rem}
+  #mapa{height:46svh}
+  #mapaReportes{height:48svh}
+}
+</style>
+</head>
+<body>
+
+<div class="nav-shell">
+  <nav class="top-nav">
+    <div class="nav-inner">
+      <a href="index.html">Inicio</a>
+      <a href="conoceme.html">Conóceme</a>
+      <a href="informate.html">Infórmate</a>
+      <a href="peticiones.html" class="on">Peticiones</a>
+      <a href="informate.html#sumate">Súmate</a>
+    </div>
+  </nav>
+  <button id="themeToggle" class="theme-toggle" type="button" aria-pressed="false">
+    <span class="toggle-dot" aria-hidden="true"></span>
+    <span id="themeToggleLabel">Claro</span>
+  </button>
+</div>
+
+<header class="page-head">
+  <div class="aura" aria-hidden="true">
+    <span style="width:460px;height:460px;left:-8%;top:-10%;background:var(--spec-a)"></span>
+    <span style="width:340px;height:340px;right:-6%;top:30%;background:var(--spec-b);animation-delay:-9s"></span>
+  </div>
+  <div class="container">
+    <p class="eyebrow">Peticiones y solicitudes</p>
+    <h1>¿Qué <em>te duele</em>?</h1>
+    <p>Si algo en tu colonia necesita atención — una fuga, un espacio abandonado, una zona insegura —
+       márcalo en el mapa y cuéntanos. Cada petición queda registrada y le damos seguimiento.</p>
+    <div class="pasos">
+      <span class="paso"><b>1</b> Ubica el punto en el mapa</span>
+      <span class="paso"><b>2</b> Elige el tema</span>
+      <span class="paso"><b>3</b> Cuéntanos qué pasa</span>
+      <span class="paso"><b>4</b> Envía</span>
+    </div>
+  </div>
+</header>
+
+<main class="section">
+  <div class="container pet-grid">
+
+    <!-- ============ MAPA ============ -->
+    <div class="panel">
+      <h2>1 · ¿<em>Dónde</em> está el problema?</h2>
+      <p class="hint">Toca el mapa para colocar el pin en el lugar exacto, o usa tu ubicación actual. Puedes arrastrar el pin para ajustarlo.</p>
+      <div id="mapa" role="application" aria-label="Mapa para ubicar la petición"></div>
+      <div class="map-tools">
+        <button class="btn ghost" id="btnUbicacion" type="button">📍 Usar mi ubicación</button>
+        <span class="coords" id="coordsTxt">Aún no has marcado un punto</span>
+      </div>
+    </div>
+
+    <!-- ============ FORMULARIO ============ -->
+    <div class="panel">
+      <h2>2 · Cuéntanos <em>qué pasa</em></h2>
+      <p class="hint">Entre más detalle nos des, más fácil es canalizar tu petición.</p>
+
+      <form id="formPeticion">
+        <label>Tema de la petición</label>
+        <div class="chips" role="radiogroup" aria-label="Tema de la petición">
+          <label class="chip"><input type="radio" name="categoria" value="Servicios públicos" required><span>💧 Servicios públicos</span></label>
+          <label class="chip"><input type="radio" name="categoria" value="Limpieza de espacio público"><span>🧹 Limpieza de espacio público</span></label>
+          <label class="chip"><input type="radio" name="categoria" value="Seguridad"><span>🛡️ Seguridad</span></label>
+          <label class="chip"><input type="radio" name="categoria" value="Alumbrado"><span>💡 Alumbrado</span></label>
+          <label class="chip"><input type="radio" name="categoria" value="Baches / vialidad"><span>🛣️ Baches / vialidad</span></label>
+          <label class="chip"><input type="radio" name="categoria" value="Áreas verdes"><span>🌳 Áreas verdes</span></label>
+          <label class="chip"><input type="radio" name="categoria" value="Otro"><span>✏️ Otro</span></label>
+        </div>
+
+        <div class="form-grid">
+          <div class="full">
+            <label for="descripcion">¿Qué te duele? *</label>
+            <textarea id="descripcion" required placeholder="Describe el problema: qué es, desde cuándo, a quiénes afecta…"></textarea>
+          </div>
+          <div>
+            <label for="nombre">Tu nombre *</label>
+            <input type="text" id="nombre" required placeholder="Nombre y apellido">
+          </div>
+          <div>
+            <label for="tel">Teléfono / WhatsApp</label>
+            <input type="tel" id="tel" placeholder="Para darte seguimiento (opcional)">
+          </div>
+          <div class="full">
+            <label for="colonia">Colonia / referencia</label>
+            <input type="text" id="colonia" placeholder="Ej. Col. Independencia, frente a la escuela">
+          </div>
+          <div class="full">
+            <button class="btn primary" id="btnEnviar" type="submit">Enviar petición →</button>
+          </div>
+        </div>
+        <p class="privacy">Tus datos se usan únicamente para dar seguimiento a tu petición. No se comparten con terceros. Consulta nuestro <a href="aviso-privacidad.html" style="color:var(--accent);font-weight:700">Aviso de privacidad</a>.</p>
+        <div class="estado" id="estado" role="status"></div>
+      </form>
+    </div>
+
+  </div>
+
+  <!-- ============ MAPA PÚBLICO DE REPORTES ============ -->
+  <div class="container reportes-panel">
+    <div class="panel" id="reportes">
+      <h2>Reportes <em>registrados</em></h2>
+      <p class="hint">Así se ve lo que la comunidad ya reportó. Los puntos se agrupan: acércate para ver cada reporte. No se muestran nombres ni teléfonos.</p>
+      <div class="leyenda" id="leyenda" aria-hidden="true"></div>
+      <div id="mapaReportes" role="application" aria-label="Mapa de reportes registrados"></div>
+      <div class="map-tools">
+        <button class="btn ghost" id="btnRecargar" type="button">↻ Actualizar reportes</button>
+        <span class="coords" id="reportesTxt">Cargando…</span>
+      </div>
+    </div>
+  </div>
+</main>
+
+<footer>
+  <div class="container foot-in">
+    <span>© <span id="anio"></span> Martha Herrera · <a href="aviso-privacidad.html" style="color:var(--accent);font-weight:700;text-decoration:none">Aviso de privacidad</a></span>
+    <a href="informate.html">¿Buscas un teléfono de emergencia? Ve a Infórmate →</a>
+  </div>
+</footer>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="https://unpkg.com/leaflet.markercluster@1.5.3/dist/leaflet.markercluster.js"></script>
+<!-- Polígonos de las 930 colonias del municipio (generado del GeoJSON oficial).
+     Mantén colonias.js junto a este archivo. Si falta, la página funciona igual
+     pero la colonia no se detecta en automático. -->
+<script src="colonias.js"></script>
+<script>
+/* ==============================================================
+   CONFIG · EDITAR
+   sheetsURL → URL del Web App de Google Apps Script que guarda
+   cada registro en tu hoja de cálculo (ver INSTRUCCIONES-SHEETS.md).
+   whatsapp  → respaldo: si no hay sheetsURL, la petición se envía
+   por WhatsApp a este número (formato internacional, sin +).
+   ============================================================== */
+const CONFIG = {
+  sheetsURL: "https://script.google.com/macros/s/AKfycbxX9tMSlX9stRwevrRFckkWSeTeIPalNcXPqRDs4_K5DRMMc-HqydtlcXpSpnRUOw/exec",                 // ej. "https://script.google.com/macros/s/XXXX/exec"
+  whatsapp:  "528115285910",     // WhatsApp de respaldo
+  centro:    [25.6866, -100.3161], // Monterrey
+  zoom:      12
+};
+
+/* ================= Mapa ================= */
+const mapa = L.map('mapa',{scrollWheelZoom:false}).setView(CONFIG.centro, CONFIG.zoom);
+L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png',{
+  attribution:'© OpenStreetMap · © CARTO',maxZoom:19
+}).addTo(mapa);
+const icono = L.divIcon({className:'',html:'<div class="pin-naranja"></div>',iconSize:[15,15],iconAnchor:[8,8]});
+let marcador = null;
+
+function ponerPin(lat,lng){
+  if(marcador){ marcador.setLatLng([lat,lng]); }
+  else{
+    marcador = L.marker([lat,lng],{icon:icono,draggable:true}).addTo(mapa);
+    marcador.on('dragend',()=>{ const p=marcador.getLatLng(); actualizarCoords(p.lat,p.lng); });
+  }
+  actualizarCoords(lat,lng);
+}
+
+/* ---- Detección automática de colonia (point-in-polygon) ---- */
+let COL_IDX = null, capaColonia = null, coloniaAuto = false;
+function prepararColonias(){
+  if(typeof COLONIAS === 'undefined') return;
+  COL_IDX = COLONIAS.features.map(f=>{
+    const mp = f.geometry.type === 'Polygon' ? [f.geometry.coordinates] : f.geometry.coordinates;
+    let minx=180,miny=90,maxx=-180,maxy=-90;
+    mp.forEach(poly=>poly[0].forEach(([x,y])=>{
+      if(x<minx)minx=x; if(x>maxx)maxx=x; if(y<miny)miny=y; if(y>maxy)maxy=y;
+    }));
+    return {f, mp, bbox:[minx,miny,maxx,maxy]};
+  });
+}
+function dentroDeAnillo(anillo,x,y){
+  let dentro=false;
+  for(let i=0,j=anillo.length-1;i<anillo.length;j=i++){
+    const xi=anillo[i][0], yi=anillo[i][1], xj=anillo[j][0], yj=anillo[j][1];
+    if(((yi>y)!==(yj>y)) && (x < (xj-xi)*(y-yi)/(yj-yi)+xi)) dentro=!dentro;
+  }
+  return dentro;
+}
+function buscarColonia(lat,lng){
+  if(!COL_IDX) return null;
+  for(const c of COL_IDX){
+    const [minx,miny,maxx,maxy]=c.bbox;
+    if(lng<minx||lng>maxx||lat<miny||lat>maxy) continue;
+    for(const poly of c.mp){
+      if(dentroDeAnillo(poly[0],lng,lat)){
+        let enHueco=false;
+        for(let k=1;k<poly.length;k++){ if(dentroDeAnillo(poly[k],lng,lat)){enHueco=true;break;} }
+        if(!enHueco) return c.f;
+      }
+    }
+  }
+  return null;
+}
+prepararColonias();
+
+function actualizarCoords(lat,lng){
+  const col = buscarColonia(lat,lng);
+  const campo = document.getElementById('colonia');
+  if(capaColonia){ mapa.removeLayer(capaColonia); capaColonia=null; }
+  if(col){
+    if(!campo.value.trim() || coloniaAuto){ campo.value = 'Col. ' + col.properties.n; coloniaAuto = true; }
+    capaColonia = L.geoJSON(col,{style:{color:'#4264FF',weight:2,dashArray:'6 4',fillColor:'#4264FF',fillOpacity:.07}}).addTo(mapa);
+    document.getElementById('coordsTxt').innerHTML =
+      `Punto marcado: <b>${lat.toFixed(5)}, ${lng.toFixed(5)}</b><span class="badge-colonia">${col.properties.n}</span>`;
+  }else{
+    document.getElementById('coordsTxt').innerHTML =
+      `Punto marcado: <b>${lat.toFixed(5)}, ${lng.toFixed(5)}</b>`;
+  }
+}
+document.getElementById('colonia').addEventListener('input',()=>{ coloniaAuto = false; });
+mapa.on('click', e => ponerPin(e.latlng.lat, e.latlng.lng));
+
+document.getElementById('btnUbicacion').addEventListener('click', ()=>{
+  if(!navigator.geolocation){ alert('Tu navegador no permite geolocalización. Toca el mapa para marcar el punto.'); return; }
+  navigator.geolocation.getCurrentPosition(
+    pos => { ponerPin(pos.coords.latitude, pos.coords.longitude); mapa.setView([pos.coords.latitude,pos.coords.longitude],16); },
+    ()  => alert('No pudimos obtener tu ubicación. Toca el mapa para marcar el punto.')
+  );
+});
+setTimeout(()=>mapa.invalidateSize(),400);
+
+/* ================= Envío ================= */
+function generarFolio(){
+  const d=new Date();
+  return 'P-'+d.getFullYear().toString().slice(2)+String(d.getMonth()+1).padStart(2,'0')+String(d.getDate()).padStart(2,'0')+'-'+Math.random().toString(36).slice(2,6).toUpperCase();
+}
+
+document.getElementById('formPeticion').addEventListener('submit', async e=>{
+  e.preventDefault();
+  const estado = document.getElementById('estado');
+  estado.className='estado';
+
+  if(!marcador){
+    estado.className='estado err';
+    estado.innerHTML='Falta ubicar el punto en el mapa. Toca el mapa o usa <b>“Usar mi ubicación”</b>.';
+    return;
+  }
+  const g = id=>document.getElementById(id).value.trim();
+  const cat = document.querySelector('input[name="categoria"]:checked');
+  if(!cat){ estado.className='estado err'; estado.textContent='Elige el tema de tu petición.'; return; }
+
+  const p = marcador.getLatLng();
+  const folio = generarFolio();
+  const datos = {
+    folio,
+    fecha:       new Date().toLocaleString('es-MX'),
+    categoria:   cat.value,
+    descripcion: g('descripcion'),
+    nombre:      g('nombre'),
+    telefono:    g('tel') || '—',
+    colonia:     g('colonia') || '—',
+    lat:         p.lat.toFixed(6),
+    lng:         p.lng.toFixed(6),
+    mapa:        `https://www.google.com/maps?q=${p.lat.toFixed(6)},${p.lng.toFixed(6)}`
+  };
+
+  const btn = document.getElementById('btnEnviar');
+  btn.disabled = true; btn.textContent = 'Enviando…';
+
+  if(CONFIG.sheetsURL){
+    try{
+      await fetch(CONFIG.sheetsURL, {
+        method:'POST', mode:'no-cors',
+        headers:{'Content-Type':'application/x-www-form-urlencoded'},
+        body:new URLSearchParams(datos)
+      });
+      estado.className='estado ok';
+      estado.innerHTML=`✅ ¡Petición registrada! Tu folio es <b>${folio}</b>.<small>Guárdalo para dar seguimiento. Gracias por levantar la mano.</small>`;
+      e.target.reset(); mapa.removeLayer(marcador); marcador=null;
+      document.getElementById('coordsTxt').textContent='Aún no has marcado un punto';
+    }catch(err){
+      estado.className='estado err';
+      estado.innerHTML='No pudimos registrar tu petición. Revisa tu conexión o envíala por WhatsApp.';
+    }
+  }else{
+    /* Respaldo: WhatsApp mientras se configura la hoja */
+    const texto = `📌 *Nueva petición* (${folio})\n`+
+      `Tema: ${datos.categoria}\n`+
+      `¿Qué duele?: ${datos.descripcion}\n`+
+      `Nombre: ${datos.nombre}\nTel: ${datos.telefono}\n`+
+      `Colonia: ${datos.colonia}\nUbicación: ${datos.mapa}`;
+    window.open(`https://wa.me/${CONFIG.whatsapp}?text=${encodeURIComponent(texto)}`,'_blank');
+    estado.className='estado ok';
+    estado.innerHTML=`Se abrió WhatsApp con tu petición <b>${folio}</b>.<small>Cuando se configure el registro automático, las peticiones se guardarán directo en la base de datos.</small>`;
+  }
+  btn.disabled=false; btn.textContent='Enviar petición →';
+});
+
+/* ============ Mapa público de reportes ============ */
+const CAT_COLORES = {
+  'Servicios públicos':          '#4264FF',
+  'Limpieza de espacio público': '#0EA5A5',
+  'Seguridad':                   '#E23B3B',
+  'Alumbrado':                   '#F7941D',
+  'Baches / vialidad':           '#8B5CF6',
+  'Áreas verdes':                '#16A34A',
+  'Otro':                        '#64748B'
+};
+const LIMITES_MUNICIPIO = L.latLngBounds([25.5238,-100.4346],[25.7972,-100.1970]);
+const mapaR = L.map('mapaReportes',{scrollWheelZoom:false});
+mapaR.fitBounds(LIMITES_MUNICIPIO.pad(0.03));
+L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png',{
+  attribution:'© OpenStreetMap · © CARTO',maxZoom:19
+}).addTo(mapaR);
+const grupoReportes = L.markerClusterGroup({showCoverageOnHover:false, maxClusterRadius:55});
+mapaR.addLayer(grupoReportes);
+
+document.getElementById('leyenda').innerHTML = Object.entries(CAT_COLORES)
+  .map(([c,color])=>`<span><i style="background:${color}"></i>${c}</span>`).join('');
+
+function fechaCorta(v){
+  const s = String(v||'');
+  return s.length>10 && s.includes('T') ? s.slice(0,10) : s;
+}
+async function cargarReportes(){
+  const txt = document.getElementById('reportesTxt');
+  if(!CONFIG.sheetsURL){
+    txt.textContent = 'Conecta Google Sheets (CONFIG.sheetsURL) para ver aquí los reportes registrados.';
+    return;
+  }
+  txt.textContent = 'Cargando reportes…';
+  try{
+    const r = await fetch(CONFIG.sheetsURL);
+    const data = await r.json();
+    grupoReportes.clearLayers();
+    let n = 0;
+    (data.reportes||[]).forEach(rep=>{
+      const lat=Number(rep.lat), lng=Number(rep.lng);
+      if(!isFinite(lat)||!isFinite(lng)||(!lat&&!lng)) return;
+      const color = CAT_COLORES[rep.categoria] || CAT_COLORES['Otro'];
+      const m = L.circleMarker([lat,lng],{radius:8,color:'#fff',weight:2,fillColor:color,fillOpacity:.95});
+      m.bindPopup(
+        `<b style="color:${color}">${rep.categoria||'Reporte'}</b><br>`+
+        (rep.colonia?`${rep.colonia}<br>`:'')+
+        `Folio: <b>${rep.folio||'—'}</b> · ${fechaCorta(rep.fecha)}<br>`+
+        `Estado: ${rep.estado||'Nueva'}`
+      );
+      grupoReportes.addLayer(m); n++;
+    });
+    txt.innerHTML = n ? `<b>${n}</b> reporte${n===1?'':'s'} en el mapa` : 'Aún no hay reportes registrados. ¡Sé el primero en levantar la mano!';
+  }catch(err){
+    txt.textContent = 'No pudimos cargar los reportes. Verifica que el Web App tenga la función doGet (ver INSTRUCCIONES-SHEETS.md).';
+  }
+}
+document.getElementById('btnRecargar').addEventListener('click', cargarReportes);
+cargarReportes();
+
+/* ================= Toggle de tema ================= */
+const root=document.documentElement,tgl=document.getElementById('themeToggle'),lbl=document.getElementById('themeToggleLabel');
+function setTheme(t){root.dataset.theme=t;lbl.textContent=t==='dark'?'Oscuro':'Claro';tgl.setAttribute('aria-pressed',t==='dark');try{localStorage.setItem('mh-theme',t)}catch(_){}}
+tgl.addEventListener('click',()=>setTheme(root.dataset.theme==='dark'?'light':'dark'));
+try{const s=localStorage.getItem('mh-theme');if(s)setTheme(s);}catch(_){}
+document.getElementById('anio').textContent=new Date().getFullYear();
+</script>
+</body>
+</html>
