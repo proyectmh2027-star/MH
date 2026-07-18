@@ -37,9 +37,10 @@ html[data-theme="dark"]{
 html{scroll-behavior:smooth;background:var(--bg);font-synthesis:none}
 body{font-family:var(--body);color:var(--ink);background:var(--bg);line-height:1.65}
 .container{width:min(860px,92vw);margin-inline:auto}
-.nav-shell{position:sticky;top:0;z-index:50;display:flex;justify-content:center;padding:1rem 0;background:color-mix(in srgb,var(--bg) 80%,transparent);backdrop-filter:blur(14px)}
+.nav-shell{position:sticky;top:0;z-index:50;display:flex;justify-content:center;padding:1rem .6rem;overflow-x:auto;white-space:nowrap;scrollbar-width:none;background:color-mix(in srgb,var(--bg) 80%,transparent);backdrop-filter:blur(14px)}
 .top-nav a{display:inline-block;padding:.5rem .9rem;border-radius:99px;color:var(--ink);text-decoration:none;font-weight:600;font-size:.92rem}
 .top-nav a:hover{background:var(--bg-soft);color:var(--accent)}
+.nav-shell::-webkit-scrollbar{display:none}
 header{padding:3.2rem 0 2rem;border-bottom:3px solid transparent;border-image:var(--grad) 1}
 .eyebrow{font-weight:600;font-size:.8rem;letter-spacing:.22em;text-transform:uppercase;color:var(--accent)}
 h1{font-family:var(--display);font-weight:800;font-size:clamp(1.9rem,6vw,3.2rem);line-height:1.05;margin:.5rem 0}
@@ -48,8 +49,10 @@ h2{font-family:var(--display);font-weight:800;font-size:1.25rem;color:var(--acce
 p,li{color:var(--ink-soft);font-size:.98rem}
 ul{padding-left:1.3rem;display:grid;gap:.35rem;margin:.4rem 0}
 b,strong{color:var(--ink)}
-.editar{background:rgba(247,148,29,.12);border-left:4px solid var(--naranja);padding:.7rem 1rem;border-radius:10px;margin:.6rem 0;font-size:.9rem}
-.fecha{margin-top:2.4rem;font-size:.85rem;font-style:italic}
+.btn-integral{display:inline-flex;align-items:center;gap:.5rem;margin-top:.4rem;padding:.85rem 1.5rem;border-radius:99px;
+  background:var(--accent);color:#fff;font-weight:700;text-decoration:none;font-size:.95rem;
+  box-shadow:0 10px 26px rgba(66,100,255,.35);transition:transform .2s,background .2s}
+.btn-integral:hover{transform:translateY(-2px);background:#2B48D9}
 footer{border-top:3px solid transparent;border-image:var(--grad) 1;padding:1.4rem 0;font-size:.88rem;color:var(--ink-soft)}
 footer .container{display:flex;flex-wrap:wrap;gap:.8rem;justify-content:space-between}
 footer a{color:var(--accent);font-weight:700;text-decoration:none}
@@ -70,55 +73,29 @@ footer a{color:var(--accent);font-weight:700;text-decoration:none}
   <div class="container">
     <p class="eyebrow">Martha Herrera · Comunidad</p>
     <h1>Aviso de Privacidad</h1>
-    <p>Tu confianza es lo más importante. Aquí te explicamos, con claridad, qué datos recabamos en este sitio, para qué los usamos y cómo puedes ejercer tus derechos.</p>
+    <p>Aviso de privacidad simplificado sobre el tratamiento de los datos personales que nos proporciones a través de este sitio.</p>
   </div>
 </header>
 
 <main>
   <div class="container">
 
-    <h2>1. Responsable del tratamiento</h2>
-    <p>El responsable del tratamiento de tus datos personales es:</p>
-    <div class="editar">✏️ <b>EDITAR:</b> nombre completo de la persona o figura jurídica responsable (p. ej. "Martha Herrera" o la asociación/comité que administre el sitio), domicilio para oír y recibir notificaciones, y correo electrónico de contacto. <b>Este dato es obligatorio por ley.</b></div>
+    <p>El tratamiento de los datos personales que nos proporcione será protegido conforme a lo dispuesto por la <b>Ley General de Protección de Datos Personales en Posesión de Sujetos Obligados</b> y demás normatividad que resulte aplicable.</p>
 
-    <h2>2. Datos que recabamos</h2>
-    <p>A través de los formularios de este sitio podemos recabar los siguientes datos personales, que tú nos proporcionas de manera libre y voluntaria:</p>
+    <h2>Finalidades</h2>
+    <p>Los datos recabados los utilizaremos para las siguientes finalidades:</p>
     <ul>
-      <li><b>Peticiones ciudadanas:</b> nombre, teléfono, colonia, descripción de tu reporte y la ubicación que marques en el mapa.</li>
-      <li><b>Súmate:</b> nombre, teléfono, correo electrónico (opcional), colonia (opcional) y tu interés de participación.</li>
-      <li><b>Contacto:</b> nombre, organización (opcional), teléfono (opcional) y tu mensaje.</li>
+      <li>Verificar y confirmar su identidad, así como la autenticidad de la información que nos proporciona.</li>
+      <li>Integrar expedientes y bases de datos necesarias para el otorgamiento y operación de servicios de gestión social.</li>
+      <li>Invitación a eventos y proyectos.</li>
     </ul>
-    <p>No recabamos datos personales sensibles (origen étnico, estado de salud, creencias religiosas, afiliación sindical, etc.) y te pedimos no incluirlos en los campos de texto libre.</p>
 
-    <h2>3. Finalidades</h2>
-    <ul>
-      <li>Atender y dar seguimiento a tus peticiones y reportes ciudadanos.</li>
-      <li>Contactarte cuando solicites sumarte a círculos ciudadanos, causas, voluntariado o actividades del proyecto.</li>
-      <li>Responder los mensajes que nos envíes por el formulario de contacto.</li>
-      <li>Generar estadísticas internas de manera agregada y sin identificarte (por ejemplo, número de reportes por colonia).</li>
-    </ul>
-    <p>No usaremos tus datos para finalidades distintas sin informarte antes.</p>
+    <h2>Transferencias</h2>
+    <p>No se realizarán transferencias de datos personales, salvo aquéllas que sean necesarias para atender requerimientos de información de una autoridad competente, que estén debidamente fundados y motivados.</p>
 
-    <h2>4. Publicación de reportes en el mapa</h2>
-    <p>El mapa público de "Reportes registrados" muestra únicamente: folio, fecha, categoría, colonia, ubicación aproximada y estado del reporte. <b>Tu nombre y tu teléfono nunca se publican.</b></p>
-
-    <h2>5. Dónde se almacenan tus datos</h2>
-    <p>Los datos enviados por los formularios se almacenan en hojas de cálculo de Google (Google Workspace / Google LLC como encargado del tratamiento) y/o se reciben por WhatsApp (WhatsApp LLC), según el canal que elijas. El acceso está restringido al equipo autorizado que da seguimiento a las solicitudes.</p>
-
-    <h2>6. Transferencias</h2>
-    <p>No vendemos, rentamos ni compartimos tus datos personales con terceros. Solo podrían compartirse cuando una autoridad competente lo requiera conforme a la ley, o con proveedores tecnológicos que operan la infraestructura descrita en el punto anterior.</p>
-
-    <h2>7. Tus derechos (ARCO)</h2>
-    <p>Puedes solicitar en cualquier momento el <b>A</b>cceso, <b>R</b>ectificación, <b>C</b>ancelación u <b>O</b>posición al tratamiento de tus datos, así como revocar tu consentimiento, escribiendo a:</p>
-    <div class="editar">✏️ <b>EDITAR:</b> correo electrónico y/o teléfono destinado a solicitudes ARCO (puede ser el mismo de contacto). Indica también el plazo de respuesta (la ley marca un máximo de 20 días hábiles).</div>
-
-    <h2>8. Cookies</h2>
-    <p>Este sitio no utiliza cookies de rastreo ni herramientas de analítica publicitaria. Únicamente guarda en tu propio dispositivo tu preferencia de tema (claro/oscuro), la cual no permite identificarte ni sale de tu navegador.</p>
-
-    <h2>9. Cambios a este aviso</h2>
-    <p>Cualquier modificación a este aviso se publicará en esta misma página, indicando la fecha de su última actualización.</p>
-
-    <p class="fecha">Última actualización: <span class="editar" style="display:inline;padding:.1rem .5rem">✏️ EDITAR: fecha</span></p>
+    <h2>Aviso de privacidad integral</h2>
+    <p>Si desea más información sobre los términos y condiciones en que sus datos serán tratados, puede consultar el aviso de privacidad integral en:</p>
+    <p><a class="btn-integral" href="https://transparencia.movimientociudadano.mx/protecciondedatospersonales#avisos-de-privacidad" target="_blank" rel="noopener">Consultar aviso de privacidad integral ↗</a></p>
 
   </div>
 </main>
