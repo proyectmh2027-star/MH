@@ -265,5 +265,6 @@ try{const s=localStorage.getItem('mh-theme');if(s)setTheme(s);}catch(_){}
 const ticker=document.getElementById('tickerTrack');ticker.innerHTML+=ticker.innerHTML;
 document.getElementById('anio').textContent=new Date().getFullYear();
 </script>
+<script>if('serviceWorker' in navigator){addEventListener('load',()=>navigator.serviceWorker.register('sw.js').catch(()=>{}));}</script>
 </body>
 </html>
