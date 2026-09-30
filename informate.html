@@ -623,5 +623,6 @@ const io=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting){e.tar
 document.querySelectorAll('.animate-on-scroll').forEach(el=>io.observe(el));
 document.getElementById('anio').textContent=new Date().getFullYear();
 </script>
+<script>if('serviceWorker' in navigator){addEventListener('load',()=>navigator.serviceWorker.register('sw.js').catch(()=>{}));}</script>
 </body>
 </html>
