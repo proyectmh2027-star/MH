@@ -521,5 +521,6 @@ tgl.addEventListener('click',()=>setTheme(root.dataset.theme==='dark'?'light':'d
 try{const s=localStorage.getItem('mh-theme');if(s)setTheme(s);}catch(_){}
 document.getElementById('anio').textContent=new Date().getFullYear();
 </script>
+<script>if('serviceWorker' in navigator){addEventListener('load',()=>navigator.serviceWorker.register('sw.js').catch(()=>{}));}</script>
 </body>
 </html>
