@@ -780,5 +780,6 @@ async function compartir(){
 document.getElementById('btnCompartir').onclick=compartir;
 document.getElementById('btnCompartir2').onclick=compartir;
 </script>
+<script>if('serviceWorker' in navigator){addEventListener('load',()=>navigator.serviceWorker.register('sw.js').catch(()=>{}));}</script>  
 </body>
 </html>
